@@ -33,7 +33,7 @@ config.window_frame = {
         { family = "Times", weight = "Bold" },
         { family = "Times New Roman", weight = "Bold" },
     }),
-    font_size = wezterm.target_triple == "x86_64-apple-darwin" and 12 or 10,
+    font_size = 10,
     inactive_titlebar_bg = "#181a1f",
     active_titlebar_bg = "#22252c",
     inactive_titlebar_fg = "#181a1f",
