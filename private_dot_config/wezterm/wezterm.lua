@@ -33,7 +33,7 @@ config.window_frame = {
         { family = "Times", weight = "Bold" },
         { family = "Times New Roman", weight = "Bold" },
     }),
-    font_size = 10,
+    font_size = wezterm.target_triple == "x86_64-apple-darwin" and 12 or 10,
     inactive_titlebar_bg = "#181a1f",
     active_titlebar_bg = "#22252c",
     inactive_titlebar_fg = "#181a1f",
@@ -117,7 +117,7 @@ table.insert(font_rules, { intensity = "Bold", font = wezterm.font_with_fallback
 config.font = wezterm.font_with_fallback(fonts)
 config.font_rules = font_rules
 config.line_height = 1.25
-config.font_size = wezterm.target_triple == "x86_64-apple-darwin" and 12 or 9
+config.font_size = wezterm.target_triple == "x86_64-apple-darwin" and 13 or 9
 config.freetype_load_target = "Light"
 config.freetype_render_target = "HorizontalLcd"
 config.bold_brightens_ansi_colors = true
@@ -137,7 +137,7 @@ if wezterm.target_triple ~= "x86_64-apple-darwin" then
     config.keys = keys
 else
     config.send_composed_key_when_left_alt_is_pressed = true
-    config.send_composed_key_when_righ_alt_is_pressed = false
+    config.send_composed_key_when_right_alt_is_pressed = false
 end
 
 ----------------------------------------------------------------------
