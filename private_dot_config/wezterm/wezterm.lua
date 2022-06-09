@@ -138,6 +138,11 @@ if wezterm.target_triple ~= "x86_64-apple-darwin" then
 else
     config.send_composed_key_when_left_alt_is_pressed = true
     config.send_composed_key_when_right_alt_is_pressed = false
+    config.keys = {
+        { key = "s", mods = "CMD", action = {
+            SendKey = { key = "s", mods = "CTRL" },
+        } },
+    }
 end
 
 ----------------------------------------------------------------------
