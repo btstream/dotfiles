@@ -15,7 +15,7 @@ fi
 
 ## use exa to replace ls
 if [[ "$(whence -p exa)" ]]; then
-    alias ls="exa --time-style iso"
+    alias ls="exa --time-style long-iso"
     alias ll="ls -lh"
     alias la="ll -a"
     alias lg="ll --git"
