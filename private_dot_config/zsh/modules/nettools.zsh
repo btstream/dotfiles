@@ -29,3 +29,5 @@ proxyset()
     export HTTP_PROXY=$proxy
     export HTTPS_PROXY=$proxy
 }
+
+proxyset
