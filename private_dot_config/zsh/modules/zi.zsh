@@ -31,6 +31,7 @@ zi snippet OMZL::misc.zsh
 zi snippet OMZL::key-bindings.zsh
 
 zi snippet OMZP::git
+zi snippet OMZP::sudo
 
 zi light zsh-users/zsh-syntax-highlighting
 zi light zsh-users/zsh-autosuggestions 
