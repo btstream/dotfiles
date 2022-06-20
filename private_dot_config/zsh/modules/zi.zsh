@@ -1,9 +1,9 @@
 ##############################################
 #             basic zi config                #
 ##############################################
-zi_home="${HOME}/.local/zi"
+zi_home="${HOME}/.local/share/zi"
 declare -A ZI
-ZI[HOME_DIR]="${HOME}/.local/zi-home"
+ZI[HOME_DIR]="${HOME}/.local/share/zi-home"
 
 # install zi if does not exist
 if [[ ! -e $zi_home ]]; then
