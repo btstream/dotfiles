@@ -155,4 +155,11 @@ config.window_close_confirmation = "NeverPrompt"
 ----------------------------------------------------------------------
 --                      End of Config, return                       --
 ----------------------------------------------------------------------
+local has_custom, custom_conf = pcall(require, "custom")
+if has_custom and type(custom_conf) == "table" then
+    for k, v in pairs(custom_conf) do
+        config[k] = v
+    end
+end
+
 return config
