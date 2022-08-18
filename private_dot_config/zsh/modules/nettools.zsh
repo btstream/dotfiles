@@ -12,11 +12,16 @@ if [[ $(uname -r | grep -i microsoft | wc -l) -eq 1 ]]; then
     HTTP_PROXY_ALL_PORT="1083"
 fi
 
+_set_git_proxy()
+{
+    git config --global http.proxy "socks5://$PROXY_HOST:$SOCKS_PORT"
+}
+
 proxyset()
 {
 
     if [[ $1 == "git" ]]; then
-        git config --global http.proxy "socks5://$PROXY_HOST:$SOCKS_PORT"
+        _set_git_proxy
         return
     fi
 
@@ -34,6 +39,7 @@ proxyset()
     export https_proxy=$proxy
     export HTTP_PROXY=$proxy
     export HTTPS_PROXY=$proxy
+    _set_git_proxy
 }
 
 proxyset
