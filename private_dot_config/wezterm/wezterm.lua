@@ -94,9 +94,9 @@ end)
 --                              Fonts                               --
 ----------------------------------------------------------------------
 local fonts = {
+    { family = "NotoSansMono Nerd Font Mono" }, -- use NerdVersion to support nerd icons
+    { family = "NotoSansMono NF" }, -- windows version for fallback
     { family = "Noto Sans Mono" }, -- main font use normal version, to provide narrow exp
-    -- { family = "NotoSansMono Nerd Font Mono" }, -- use NerdVersion to support nerd icons
-    -- { family = "NotoSansMono NF" }, -- windows version for fallback
     { family = "mononoki Nerd Font Mono" }, -- for fallback
     { family = "LXGW WenKai Mono" },
 }
