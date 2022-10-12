@@ -17,8 +17,8 @@ local function table_merge(...)
         local from = tables_to_merge[i]
         for k, v in pairs(from) do
             if type(k) == "number" then
-                local i = k == 1 and 1 or 2
-                table.insert(result, i, v)
+                local j = k == 1 and 1 or 2
+                table.insert(result, j, v)
             elseif type(k) == "string" then
                 if type(v) == "table" then
                     result[k] = result[k] or {}
@@ -33,14 +33,19 @@ local function table_merge(...)
     return result
 end
 
+local fonts = {}
+local bold_fonts = {}
+
+--- generate font config
+---@param t table
+---@return table, table
 local function gen_font_config(t)
-    local fonts = {}
-    local bold_fonts = {}
-    for _, v in ipairs(t) do
-        table.insert(fonts, {
+    for i, v in ipairs(t) do
+        local j = i == 1 and 1 or 2
+        table.insert(fonts, j, {
             family = v,
         })
-        table.insert(bold_fonts, {
+        table.insert(bold_fonts, j, {
             family = v,
             weight = "Bold",
         })
