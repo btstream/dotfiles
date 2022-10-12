@@ -17,7 +17,8 @@ local function table_merge(...)
         local from = tables_to_merge[i]
         for k, v in pairs(from) do
             if type(k) == "number" then
-                table.insert(result, v)
+                local i = k == 1 and 1 or 2
+                table.insert(result, i, v)
             elseif type(k) == "string" then
                 if type(v) == "table" then
                     result[k] = result[k] or {}
