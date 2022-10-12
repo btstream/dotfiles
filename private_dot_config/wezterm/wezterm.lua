@@ -1,4 +1,7 @@
 local wezterm = require("wezterm")
+local gen_font_config = require("utils").gen_font_config
+local table_merge = require("utils").table_merge
+
 local config = {}
 
 ----------------------------------------------------------------------
@@ -93,28 +96,16 @@ end)
 ----------------------------------------------------------------------
 --                              Fonts                               --
 ----------------------------------------------------------------------
-local fonts = {
-    { family = "NotoSansMono Nerd Font Mono" }, -- use NerdVersion to support nerd icons
-    { family = "NotoSansMono NF" }, -- windows version for fallback
-    { family = "Noto Sans Mono" }, -- main font use normal version, to provide narrow exp
-    { family = "mononoki Nerd Font Mono" }, -- for fallback
-    { family = "LXGW WenKai Mono" },
-}
-
--- for bold fonts, in case of wezterm does not
--- get bold font for some fonts like `LXGW WenKai Mono`
-local bold_fonts = {}
-for _, value in pairs(fonts) do
-    local v = {}
-    v.family = value.family
-    v.weight = "Bold"
-    table.insert(bold_fonts, v)
-end
-local font_rules = {}
-table.insert(font_rules, { intensity = "Bold", font = wezterm.font_with_fallback(bold_fonts) })
+local fonts, font_rules = gen_font_config({
+    "NotoSansMono Nerd Font Mono",
+    "NotoSansMono NF",
+    "Noto Sans Mono",
+    "mononoki Nerd Font Mono",
+    "LXGW WenKai Mono",
+})
 
 -- config fallback
-config.font = wezterm.font_with_fallback(fonts)
+config.font = fonts
 config.font_rules = font_rules
 config.line_height = 1.25
 config.font_size = wezterm.target_triple == "x86_64-apple-darwin" and 12 or 9
@@ -157,9 +148,7 @@ config.window_close_confirmation = "NeverPrompt"
 ----------------------------------------------------------------------
 local has_custom, custom_conf = pcall(require, "custom")
 if has_custom and type(custom_conf) == "table" then
-    for k, v in pairs(custom_conf) do
-        config[k] = v
-    end
+    table_merge(config, custom_conf)
 end
 
 return config
