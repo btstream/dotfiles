@@ -21,3 +21,8 @@ if [[ "$(whence -p exa)" ]]; then
     alias la="ll -a"
     alias lg="ll --git"
 fi
+
+if [[ "$(whence -p nvim)" ]]; then
+    alias v="nvim"
+    alias e="nvim"
+fi
