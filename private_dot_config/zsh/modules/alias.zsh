@@ -23,6 +23,12 @@ if [[ "$(whence -p exa)" ]]; then
 fi
 
 if [[ "$(whence -p nvim)" ]]; then
+
+    # set TERM to wezterm if run in WezTerm when run neovim
+    if [[ "${TERM_PROGRAM}" == "WezTerm" ]]; then
+        alias nvim="env TERM=wezterm nvim"
+    fi
+
     alias v="nvim"
     alias e="nvim"
 fi
