@@ -3,3 +3,10 @@
 */**/*.zwc
 
 */**/*.boltdb
+
+{{- if eq .chezmoi.os "darwin" }}
+.config/fontconfig/
+{{end}}
+
+{{- if eq .chezmoi.os "linux" }}
+{{end}}
