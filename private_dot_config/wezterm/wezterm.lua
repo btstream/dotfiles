@@ -144,6 +144,13 @@ config.exit_behavior = "Close"
 config.window_close_confirmation = "NeverPrompt"
 
 ----------------------------------------------------------------------
+--                             wayland                              --
+----------------------------------------------------------------------
+-- if os.getenv("XDG_SESSION_TYPE") == "wayland" then
+config.enable_wayland = false
+-- end
+
+----------------------------------------------------------------------
 --                      End of Config, return                       --
 ----------------------------------------------------------------------
 local has_custom, custom_conf = pcall(require, "custom")
