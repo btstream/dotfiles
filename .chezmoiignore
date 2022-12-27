@@ -6,6 +6,7 @@
 
 {{- if eq .chezmoi.os "darwin" }}
 .config/fontconfig/
+.config/plasma-workspace/env/
 {{end}}
 
 {{- if eq .chezmoi.os "linux" }}
