@@ -32,8 +32,10 @@ proxyset()
 
     if [[ $1 == "all" ]]; then
         proxy="http://$PROXY_HOST:$HTTP_PROXY_ALL_PORT"
+        SOCKS_PORT=1082
     else
         proxy="http://$PROXY_HOST:$HTTP_PORT"
+        SOCKS_PORT=1080
     fi
     export http_proxy=$proxy
     export https_proxy=$proxy

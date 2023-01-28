@@ -1,9 +1,28 @@
 local wezterm = require("wezterm")
 local gen_font_config = require("utils").gen_font_config
 local table_merge = require("utils").table_merge
+local darken = require("utils.colors").darken
+
+local colors = {
+    base0F = "#be5046",
+    base0D = "#61afef",
+    base07 = "#c8ccd4",
+    base05 = "#abb2bf",
+    base0E = "#c678dd",
+    base02 = "#3e4451",
+    base0C = "#56b6c2",
+    base01 = "#353b45",
+    base0B = "#98c379",
+    base0A = "#e5c07b",
+    base09 = "#d19a66",
+    base00 = "#282c34",
+    base08 = "#e06c75",
+    base03 = "#545862",
+    base06 = "#b6bdca",
+    base04 = "#565c64",
+}
 
 local config = {}
-
 ----------------------------------------------------------------------
 --                              Theme                               --
 ----------------------------------------------------------------------
@@ -11,15 +30,33 @@ local config = {}
 -- config.color_scheme = "OneHalfDark"
 -- modify OneHalfDark to make zsh more uesable
 config.colors = {
-    foreground = "#dcdfe4",
-    background = "#282c34",
-    cursor_bg = "#a3b3cc",
-    cursor_border = "#a3b3cc",
-    cursor_fg = "#dcdfe4",
-    selection_bg = "#474e5d",
-    selection_fg = "#dcdfe4",
-    ansi = { "#474e5d", "#e06c75", "#98c379", "#e5c07b", "#61afef", "#c678dd", "#56b6c2", "#dcdfe4" },
-    brights = { "#474e5d", "#e06c75", "#98c379", "#e5c07b", "#61afef", "#c678dd", "#56b6c2", "#dcdfe4" },
+    foreground = colors.base07,
+    background = colors.base00,
+    cursor_bg = colors.base06,
+    cursor_border = colors.base06,
+    cursor_fg = colors.base07,
+    selection_bg = colors.base01,
+    selection_fg = colors.base07,
+    ansi = {
+        colors.base01,
+        colors.base08,
+        colors.base0B,
+        colors.base0A,
+        colors.base0D,
+        colors.base0E,
+        colors.base0C,
+        colors.base07,
+    },
+    brights = {
+        colors.base01,
+        colors.base0F,
+        colors.base0B,
+        colors.base0A,
+        colors.base0D,
+        colors.base0E,
+        colors.base0C,
+        colors.base07,
+    },
 }
 
 -- init windo size
@@ -37,43 +74,43 @@ config.window_frame = {
         { family = "Times New Roman", weight = "Bold" },
     }),
     font_size = wezterm.target_triple == "x86_64-apple-darwin" and 12 or 10,
-    inactive_titlebar_bg = "#181a1f",
-    active_titlebar_bg = "#22252c",
-    inactive_titlebar_fg = "#181a1f",
-    active_titlebar_fg = "#a3b3cc",
-    inactive_titlebar_border_bottom = "#dcdfe4",
-    active_titlebar_border_bottom = "#dcdfe4",
-    button_fg = "#a3b3cc",
-    button_bg = "#22252c",
-    button_hover_fg = "#dcdfe4",
-    button_hover_bg = "#22252c",
+    inactive_titlebar_bg = colors.base00,
+    active_titlebar_bg = darken(colors.base00, 0.15),
+    inactive_titlebar_fg = colors.base00,
+    active_titlebar_fg = colors.base05,
+    inactive_titlebar_border_bottom = colors.base07,
+    active_titlebar_border_bottom = colors.base07,
+    button_fg = colors.base05,
+    button_bg = colors.base02,
+    button_hover_fg = colors.base07,
+    button_hover_bg = colors.base02,
 }
 config.colors.tab_bar = {
     -- active tab
     active_tab = {
-        bg_color = "#282c34",
-        fg_color = "#61afef",
+        bg_color = colors.base00,
+        fg_color = colors.base0D,
     },
 
     -- inactive tab
     inactive_tab = {
-        bg_color = "#22252c",
-        fg_color = "#474e5d",
+        bg_color = darken(colors.base00, 0.15),
+        fg_color = colors.base03,
     },
     inactive_tab_hover = {
-        bg_color = "#22252c",
-        fg_color = "#dcdfe4",
+        bg_color = colors.base02,
+        fg_color = colors.base07,
     },
-    inactive_tab_edge = "#22252c",
+    inactive_tab_edge = darken(colors.base00, 0.15),
 
     -- new tab button
     new_tab = {
-        bg_color = "#22252c",
-        fg_color = "#474e5d",
+        bg_color = darken(colors.base00, 0.15),
+        fg_color = colors.base03,
     },
     new_tab_hover = {
-        bg_color = "#22252c",
-        fg_color = "#dcdfe4",
+        bg_color = colors.base02,
+        fg_color = colors.base07,
     },
 }
 config.tab_max_width = 30
