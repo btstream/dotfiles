@@ -3,6 +3,8 @@ local gen_font_config = require("utils").gen_font_config
 local table_merge = require("utils").table_merge
 local darken = require("utils.colors").darken
 
+local has_custom, custom_conf = pcall(require, "custom")
+
 local colors = {
     base0F = "#be5046",
     base0D = "#61afef",
@@ -21,6 +23,13 @@ local colors = {
     base06 = "#b6bdca",
     base04 = "#565c64",
 }
+
+if has_custom and custom_conf.color_scheme then
+    local b, c = pcall(require, "colors." .. custom_conf.color_scheme)
+    if b then
+        colors = c
+    end
+end
 
 local config = {}
 ----------------------------------------------------------------------
@@ -190,7 +199,7 @@ config.enable_wayland = false
 ----------------------------------------------------------------------
 --                      End of Config, return                       --
 ----------------------------------------------------------------------
-local has_custom, custom_conf = pcall(require, "custom")
+
 if has_custom and type(custom_conf) == "table" then
     table_merge(config, custom_conf)
 end
