@@ -138,6 +138,10 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     })
 end)
 
+config.window_padding = {
+    bottom = 0,
+}
+
 ----------------------------------------------------------------------
 --                              Fonts                               --
 ----------------------------------------------------------------------
