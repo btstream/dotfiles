@@ -11,10 +11,10 @@ local darken = require("utils.colors").darken
 local has_custom, custom_conf = pcall(require, "custom")
 
 local color_scheme = "onedark"
-local all_fonts = {}
+local fonts = {}
 if has_custom then
     color_scheme = custom_conf.color_scheme and custom_conf.color_scheme or color_scheme
-    all_fonts = custom_conf.fonts and custom_conf.fonts or {}
+    fonts = custom_conf.fonts and custom_conf.fonts or {}
 end
 local colors = require("colors." .. color_scheme)
 
@@ -26,7 +26,7 @@ local default_fonts = {
     "LXGW WenKai Mono",
 }
 for _, f in pairs(default_fonts) do
-    table.insert(all_fonts, f)
+    table.insert(fonts, f)
 end
 
 local config = {}
@@ -140,11 +140,11 @@ end)
 ----------------------------------------------------------------------
 --                              Fonts                               --
 ----------------------------------------------------------------------
-local fonts, font_rules = gen_font_config(all_fonts)
+local f, r = gen_font_config(fonts)
 
 -- config fallback
-config.font = fonts
-config.font_rules = font_rules
+config.font = f
+config.font_rules = r
 config.line_height = 1.25
 config.font_size = wezterm.target_triple == "x86_64-apple-darwin" and 12 or 9
 config.freetype_load_target = "Light"
