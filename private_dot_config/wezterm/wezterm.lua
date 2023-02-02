@@ -15,6 +15,7 @@ local fonts = {}
 if has_custom then
     color_scheme = custom_conf.color_scheme and custom_conf.color_scheme or color_scheme
     fonts = custom_conf.fonts and custom_conf.fonts or {}
+    custom_conf.fonts = nil
 end
 local colors = require("colors." .. color_scheme)
 
