@@ -3,32 +3,30 @@ local gen_font_config = require("utils").gen_font_config
 local table_merge = require("utils").table_merge
 local darken = require("utils.colors").darken
 
+----------------------------------------------------------------------
+--                     Loadding Custom Configs                      --
+----------------------------------------------------------------------
+
+-- colors
 local has_custom, custom_conf = pcall(require, "custom")
 
-local colors = {
-    base0F = "#be5046",
-    base0D = "#61afef",
-    base07 = "#c8ccd4",
-    base05 = "#abb2bf",
-    base0E = "#c678dd",
-    base02 = "#3e4451",
-    base0C = "#56b6c2",
-    base01 = "#353b45",
-    base0B = "#98c379",
-    base0A = "#e5c07b",
-    base09 = "#d19a66",
-    base00 = "#282c34",
-    base08 = "#e06c75",
-    base03 = "#545862",
-    base06 = "#b6bdca",
-    base04 = "#565c64",
-}
+local color_scheme = "onedark"
+local all_fonts = {}
+if has_custom then
+    color_scheme = custom_conf.color_scheme and custom_conf.color_scheme or color_scheme
+    all_fonts = custom_conf.fonts and custom_conf.fonts or {}
+end
+local colors = require("colors." .. color_scheme)
 
-if has_custom and custom_conf.color_scheme then
-    local b, c = pcall(require, "colors." .. custom_conf.color_scheme)
-    if b then
-        colors = c
-    end
+local default_fonts = {
+    "NotoSansMono Nerd Font Mono",
+    "NotoSansMono NF",
+    "Noto Sans Mono",
+    "mononoki Nerd Font Mono",
+    "LXGW WenKai Mono",
+}
+for _, f in pairs(default_fonts) do
+    table.insert(all_fonts, f)
 end
 
 local config = {}
@@ -142,13 +140,7 @@ end)
 ----------------------------------------------------------------------
 --                              Fonts                               --
 ----------------------------------------------------------------------
-local fonts, font_rules = gen_font_config({
-    "NotoSansMono Nerd Font Mono",
-    "NotoSansMono NF",
-    "Noto Sans Mono",
-    "mononoki Nerd Font Mono",
-    "LXGW WenKai Mono",
-})
+local fonts, font_rules = gen_font_config(all_fonts)
 
 -- config fallback
 config.font = fonts
