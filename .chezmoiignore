@@ -4,6 +4,8 @@
 
 */**/*.boltdb
 
+.config/wezterm/custom.lua
+
 {{- if eq .chezmoi.os "darwin" }}
 .config/fontconfig/
 .config/plasma-workspace/
