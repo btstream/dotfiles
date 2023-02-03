@@ -15,7 +15,8 @@ local fonts = {}
 if has_custom then
     color_scheme = custom_conf.color_scheme and custom_conf.color_scheme or color_scheme
     fonts = custom_conf.fonts and custom_conf.fonts or {}
-    custom_conf.fonts = nil
+    custom_conf.color_scheme = nil -- to avoid use wezterm's inner color sheme
+    custom_conf.fonts = nil -- wezterm does not have a fonts config key, delete it to avoid warnnings
 end
 local colors = require("colors." .. color_scheme)
 
