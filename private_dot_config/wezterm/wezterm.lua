@@ -82,7 +82,9 @@ config.window_frame = {
         { family = "Times", weight = "Bold" },
         { family = "Times New Roman", weight = "Bold" },
     }),
-    font_size = wezterm.target_triple == "x86_64-apple-darwin" and 12 or 10,
+    font_size = (wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin")
+            and 12
+        or 10,
     inactive_titlebar_bg = colors.base00,
     active_titlebar_bg = darken(colors.base00, 0.15),
     inactive_titlebar_fg = colors.base00,
@@ -123,7 +125,7 @@ config.colors.tab_bar = {
     },
 }
 config.tab_max_width = 30
-config.hide_tab_bar_if_only_one_tab = true
+config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local title = string.format("%s. %s", tab.tab_index + 1, tab.active_pane.title)
     local len = string.len(title)
@@ -152,7 +154,9 @@ local f, r = gen_font_config(fonts)
 config.font = f
 config.font_rules = r
 config.line_height = 1.25
-config.font_size = wezterm.target_triple == "x86_64-apple-darwin" and 12 or 9
+config.font_size = (wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin")
+        and 12
+    or 9
 config.freetype_load_target = "Light"
 config.freetype_render_target = "HorizontalLcd"
 config.bold_brightens_ansi_colors = true
@@ -160,7 +164,7 @@ config.bold_brightens_ansi_colors = true
 ----------------------------------------------------------------------
 --                             For Keys                             --
 ----------------------------------------------------------------------
-if wezterm.target_triple ~= "x86_64-apple-darwin" then
+if wezterm.target_triple ~= "x86_64-apple-darwin" or wezterm.target_triple ~= "aarch64-apple-darwin" then
     local keys = {}
     for i = 1, 8 do
         table.insert(keys, {
