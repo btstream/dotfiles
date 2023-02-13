@@ -28,6 +28,7 @@ proxyset()
     if [[ $1 == "clear" ]]; then
         unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY
         git config --global --unset http.proxy
+        return
     fi
 
     if [[ $1 == "all" ]]; then
