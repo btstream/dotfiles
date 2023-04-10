@@ -75,6 +75,7 @@ config.initial_rows = 30
 ----------------------------------------------------------------------
 --                              Tabbar                              --
 ----------------------------------------------------------------------
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_frame = {
     font = wezterm.font_with_fallback({
         { family = "Libertinus Sans", weight = "Bold" },
@@ -83,10 +84,10 @@ config.window_frame = {
         { family = "Times New Roman", weight = "Bold" },
     }),
     font_size = (wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin")
-            and 12
+            and 13
         or 10,
     inactive_titlebar_bg = colors.base00,
-    active_titlebar_bg = darken(colors.base00, 0.15),
+    active_titlebar_bg = darken(colors.base00, 0.35),
     inactive_titlebar_fg = colors.base00,
     active_titlebar_fg = colors.base05,
     inactive_titlebar_border_bottom = colors.base07,
@@ -105,18 +106,18 @@ config.colors.tab_bar = {
 
     -- inactive tab
     inactive_tab = {
-        bg_color = darken(colors.base00, 0.15),
+        bg_color = darken(colors.base00, 0.35),
         fg_color = colors.base03,
     },
     inactive_tab_hover = {
         bg_color = colors.base02,
         fg_color = colors.base07,
     },
-    inactive_tab_edge = darken(colors.base00, 0.15),
+    inactive_tab_edge = darken(colors.base00, 0.35),
 
     -- new tab button
     new_tab = {
-        bg_color = darken(colors.base00, 0.15),
+        bg_color = darken(colors.base00, 0.35),
         fg_color = colors.base03,
     },
     new_tab_hover = {
@@ -125,7 +126,7 @@ config.colors.tab_bar = {
     },
 }
 config.tab_max_width = 30
-config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
+-- config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local title = string.format("%s. %s", tab.tab_index + 1, tab.active_pane.title)
     local len = string.len(title)
@@ -197,7 +198,6 @@ config.window_close_confirmation = "NeverPrompt"
 -- if os.getenv("XDG_SESSION_TYPE") == "wayland" then
 config.enable_wayland = false
 -- end
-
 ----------------------------------------------------------------------
 --                      End of Config, return                       --
 ----------------------------------------------------------------------
