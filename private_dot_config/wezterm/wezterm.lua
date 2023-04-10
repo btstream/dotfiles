@@ -87,7 +87,7 @@ config.window_frame = {
             and 13
         or 10,
     inactive_titlebar_bg = colors.base00,
-    active_titlebar_bg = darken(colors.base00, 0.35),
+    active_titlebar_bg = darken(colors.base00, 0.15),
     inactive_titlebar_fg = colors.base00,
     active_titlebar_fg = colors.base05,
     inactive_titlebar_border_bottom = colors.base07,
@@ -106,18 +106,18 @@ config.colors.tab_bar = {
 
     -- inactive tab
     inactive_tab = {
-        bg_color = darken(colors.base00, 0.35),
+        bg_color = darken(colors.base00, 0.15),
         fg_color = colors.base03,
     },
     inactive_tab_hover = {
         bg_color = colors.base02,
         fg_color = colors.base07,
     },
-    inactive_tab_edge = darken(colors.base00, 0.35),
+    inactive_tab_edge = darken(colors.base00, 0.15),
 
     -- new tab button
     new_tab = {
-        bg_color = darken(colors.base00, 0.35),
+        bg_color = darken(colors.base00, 0.15),
         fg_color = colors.base03,
     },
     new_tab_hover = {
