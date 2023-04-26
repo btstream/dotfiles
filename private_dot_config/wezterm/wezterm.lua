@@ -3,6 +3,18 @@ local gen_font_config = require("utils").gen_font_config
 local table_merge = require("utils").table_merge
 local darken = require("utils.colors").darken
 
+local function platform()
+    if wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin" then
+        return "macOS"
+    end
+
+    if wezterm.target_triple == "x86_64-unknown-linux-gnu" then
+        return "Linux"
+    end
+
+    return "Windows"
+end
+
 ----------------------------------------------------------------------
 --                     Loadding Custom Configs                      --
 ----------------------------------------------------------------------
@@ -83,9 +95,7 @@ config.window_frame = {
         { family = "Times", weight = "Bold" },
         { family = "Times New Roman", weight = "Bold" },
     }),
-    font_size = (wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin")
-            and 13
-        or 10,
+    font_size = platform() == "macOS" and 13 or 10,
     inactive_titlebar_bg = colors.base00,
     active_titlebar_bg = darken(colors.base00, 0.15),
     inactive_titlebar_fg = colors.base00,
@@ -155,9 +165,7 @@ local f, r = gen_font_config(fonts)
 config.font = f
 config.font_rules = r
 config.line_height = 1.25
-config.font_size = (wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin")
-        and 12
-    or 9
+config.font_size = platform() == "macOS" and 12 or 9
 config.freetype_load_target = "Light"
 config.freetype_render_target = "HorizontalLcd"
 config.bold_brightens_ansi_colors = true
@@ -165,7 +173,7 @@ config.bold_brightens_ansi_colors = true
 ----------------------------------------------------------------------
 --                             For Keys                             --
 ----------------------------------------------------------------------
-if wezterm.target_triple ~= "x86_64-apple-darwin" and wezterm.target_triple ~= "aarch64-apple-darwin" then
+if platform() ~= "macOS" then
     local keys = {}
     for i = 1, 8 do
         table.insert(keys, {
@@ -198,6 +206,12 @@ config.window_close_confirmation = "NeverPrompt"
 -- if os.getenv("XDG_SESSION_TYPE") == "wayland" then
 config.enable_wayland = false
 -- end
+
+----------------------------------------------------------------------
+--                            front end                             --
+----------------------------------------------------------------------
+config.front_end = "OpenGL"
+
 ----------------------------------------------------------------------
 --                      End of Config, return                       --
 ----------------------------------------------------------------------
