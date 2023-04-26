@@ -35,7 +35,11 @@ local function hex_to_rgb(hex)
 end
 
 local function rgb_to_hex(r, g, b)
-    return string.format("%X", (r << 16) | (g << 8) | b)
+    local color = string.format("%X", (r << 16) | (g << 8) | b)
+    if #color == 5 then
+        color = string.format("0%s", color)
+    end
+    return color
     -- return bit.tohex(bit.bor(bit.lshift(r, 16), bit.lshift(g, 8), b), 6)
 end
 
