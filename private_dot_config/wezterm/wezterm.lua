@@ -33,6 +33,8 @@ end
 local colors = require("colors." .. color_scheme)
 
 local default_fonts = {
+    "JetBrainsMono NFM",
+    "NotoSansM Nerd Font Mono",
     "NotoSansMono Nerd Font Mono",
     "NotoSansMono NF",
     "Noto Sans Mono",
