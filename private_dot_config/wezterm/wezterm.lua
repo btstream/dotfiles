@@ -176,7 +176,7 @@ config.bold_brightens_ansi_colors = true
 --                            Underline                             --
 ----------------------------------------------------------------------
 config.underline_thickness = "200%"
-config.underline_position = "-.225cell"
+config.underline_position = "-.26cell"
 
 ----------------------------------------------------------------------
 --                             For Keys                             --
