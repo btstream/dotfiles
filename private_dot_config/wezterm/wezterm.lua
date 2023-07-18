@@ -166,11 +166,17 @@ local f, r = gen_font_config(fonts)
 -- config fallback
 config.font = f
 config.font_rules = r
-config.line_height = 1.25
-config.font_size = platform() == "macOS" and 12 or 9
+config.line_height = 1.45
+config.font_size = platform() == "macOS" and 13 or 9
 config.freetype_load_target = "Light"
 config.freetype_render_target = "HorizontalLcd"
 config.bold_brightens_ansi_colors = true
+
+----------------------------------------------------------------------
+--                            Underline                             --
+----------------------------------------------------------------------
+config.underline_thickness = "200%"
+config.underline_position = "-.225cell"
 
 ----------------------------------------------------------------------
 --                             For Keys                             --
