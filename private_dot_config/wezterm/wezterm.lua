@@ -33,12 +33,10 @@ end
 local colors = require("colors." .. color_scheme)
 
 local default_fonts = {
-    "JetBrainsMono NFM",
-    "NotoSansM Nerd Font Mono",
-    "NotoSansMono Nerd Font Mono",
-    "NotoSansMono NF",
-    "Noto Sans Mono",
-    "mononoki Nerd Font Mono",
+    "JetBrainsMono Nerd Font Propo",
+    "NotoSansM Nerd Font Propo",
+    "NotoSansMono Nerd Font Propo",
+    "mononoki Nerd Font Propo",
     "LXGW WenKai Mono",
 }
 for _, f in pairs(default_fonts) do
