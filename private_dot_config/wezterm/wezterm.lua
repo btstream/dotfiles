@@ -157,6 +157,13 @@ config.window_padding = {
 }
 
 ----------------------------------------------------------------------
+--                         Command Palette                          --
+----------------------------------------------------------------------
+config.command_palette_bg_color = darken(colors.base02, 0.1)
+config.command_palette_fg_color = colors.base04
+config.command_palette_font_size = 12
+
+----------------------------------------------------------------------
 --                              Fonts                               --
 ----------------------------------------------------------------------
 local f, r = gen_font_config(fonts)
