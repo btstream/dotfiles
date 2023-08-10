@@ -203,6 +203,7 @@ else
         { key = "s", mods = "CMD", action = {
             SendKey = { key = "s", mods = "CTRL" },
         } },
+        { key = "p", mods = "CMD", action = wezterm.action.ActivateCommandPalette },
     }
 end
 
