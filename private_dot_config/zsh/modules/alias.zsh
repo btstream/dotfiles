@@ -2,6 +2,7 @@
 if [[ "$(whence -p bat)" ]]; then
     export BAT_THEME=OneHalfDark
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+    export MANROFFOPT="-c"
     alias more="bat"
 fi
 
