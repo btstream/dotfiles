@@ -200,6 +200,29 @@ if platform() ~= "macOS" then
         mods = "CTRL|SHIFT",
         action = wezterm.action.SpawnTab("DefaultDomain"),
     })
+    table.insert(keys, {
+        key = "!",
+        mods = "CTRL|SHIFT",
+        action = wezterm.action.SpawnTab("DefaultDomain"),
+    })
+    local shifted_num = {
+        "@",
+        "#",
+        "$",
+        "%",
+        "^",
+        "&",
+        "*",
+        "(",
+        ")",
+    }
+    for index, domain in pairs(wezterm.default_wsl_domains()) do
+        table.insert(keys, {
+            key = shifted_num[index],
+            mods = "CTRL|SHIFT",
+            action = wezterm.action.SpawnTab({ DomainName = domain.name }),
+        })
+    end
     config.keys = keys
 else
     config.send_composed_key_when_left_alt_is_pressed = true
