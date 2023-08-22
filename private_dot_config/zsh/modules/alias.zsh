@@ -1,4 +1,6 @@
-## use bat to replace more
+#--------------------------------------------------------------------#
+#                      use bat to support more                       #
+#--------------------------------------------------------------------#
 if [[ "$(whence -p bat)" ]]; then
     export BAT_THEME=OneHalfDark
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -6,7 +8,9 @@ if [[ "$(whence -p bat)" ]]; then
     alias more="bat"
 fi
 
-## youtube-dl scripts
+#--------------------------------------------------------------------#
+#                             youtube-dl                             #
+#--------------------------------------------------------------------#
 if [[ "$(whence -p youtube-dl)" ]]; then
     alias youtube-dl="youtube-dl -f \
 'bestvideo[ext=mp4,height<=720]+bestaudio[ext=m4a]/\
@@ -15,16 +19,20 @@ best[ext=mp4,height<=480]/best' --proxy http://127.0.0.1:1081 \
 --external-downloader aria2c --external-downloader-args '-x 10'"
 fi
 
-## use exa to replace ls
+#--------------------------------------------------------------------#
+#                use lsd/exa to replace ls, lsd first                #
+#--------------------------------------------------------------------#
 if [[ "$(whence -p lsd)" ]]; then
     alias ls="lsd"
 elif [[ "$(whence -p exa)" ]]; then
     alias ls="exa --time-style long-iso"
-    alias ll="ls -lh"
-    alias la="ll -a"
-    alias lg="ll --git"
 fi
+alias ll="ls -lh"
+alias la="ls -lha"
 
+#--------------------------------------------------------------------#
+#                           set nvim alias                           #
+#--------------------------------------------------------------------#
 if [[ "$(whence -p nvim)" ]]; then
 
     # set TERM to wezterm if run in WezTerm when run neovim
