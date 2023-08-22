@@ -1,3 +1,4 @@
+source ~/.config/zsh/modules/config.zsh
 source ~/.config/zsh/modules/env.zsh
 source ~/.config/zsh/modules/nettools.zsh
 source ~/.config/zsh/modules/zi.zsh
