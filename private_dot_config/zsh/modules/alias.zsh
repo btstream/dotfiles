@@ -16,7 +16,9 @@ best[ext=mp4,height<=480]/best' --proxy http://127.0.0.1:1081 \
 fi
 
 ## use exa to replace ls
-if [[ "$(whence -p exa)" ]]; then
+if [[ "$(whence -p lsd)" ]]; then
+    alias ls="lsd"
+elif [[ "$(whence -p exa)" ]]; then
     alias ls="exa --time-style long-iso"
     alias ll="ls -lh"
     alias la="ll -a"
