@@ -3,6 +3,15 @@ local gen_font_config = require("utils").gen_font_config
 local table_merge = require("utils").table_merge
 local darken = require("utils.colors").darken
 
+function string:split(sep)
+    local sep, fields = sep or ":", {}
+    local pattern = string.format("([^%s]+)", sep)
+    self:gsub(pattern, function(c)
+        fields[#fields + 1] = c
+    end)
+    return fields
+end
+
 local function platform()
     if wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin" then
         return "macOS"
@@ -90,12 +99,13 @@ config.initial_rows = 30
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_frame = {
     font = wezterm.font_with_fallback({
+        -- { family = "JetBrainsMono Nerd Font Propo", weight = "Bold" },
         { family = "Libertinus Sans", weight = "Bold" },
         { family = "Noto Serif", weight = "Bold" },
         { family = "Times", weight = "Bold" },
         { family = "Times New Roman", weight = "Bold" },
     }),
-    font_size = platform() == "macOS" and 13 or 10,
+    font_size = platform() == "macOS" and 12 or 10,
     inactive_titlebar_bg = colors.base00,
     active_titlebar_bg = darken(colors.base00, 0.15),
     inactive_titlebar_fg = colors.base00,
@@ -107,11 +117,16 @@ config.window_frame = {
     button_hover_fg = colors.base07,
     button_hover_bg = colors.base02,
 }
+-- config.use_fancy_tab_bar = false
 config.colors.tab_bar = {
+
+    -- for use case if use_fancy_tab_bar = false
+    background = darken(colors.base00, 0.15),
+
     -- active tab
     active_tab = {
         bg_color = colors.base00,
-        fg_color = colors.base0D,
+        fg_color = colors.base07,
     },
 
     -- inactive tab
@@ -135,10 +150,41 @@ config.colors.tab_bar = {
         fg_color = colors.base07,
     },
 }
-config.tab_max_width = 30
+config.tab_max_width = 26
 -- config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-    local title = string.format("%s. %s", tab.tab_index + 1, tab.active_pane.title)
+    local domain_name = tab.active_pane.domain_name
+
+    -- set icon indicator
+    local icon
+    if domain_name == "local" then
+        local p = platform()
+        if p == "Windows" then
+            icon = wezterm.nerdfonts.md_microsoft_windows
+        end
+
+        if p == "macOS" then
+            icon = wezterm.nerdfonts.linux_apple
+        end
+
+        if p == "Linux" then
+            icon = wezterm.nerdfonts.linux_archlinux
+        end
+    else
+        local domain = domain_name:split(":")
+        if domain[1] == "WSL" then
+            if domain[2] == "Arch" then
+                icon = wezterm.nerdfonts.linux_archlinux
+            end
+        end
+
+        if domain[1]:lower() == "ssh" then
+            icon = wezterm.nerdfonts.md_ssh
+        end
+    end
+
+    -- local title = string.format("%s. %s %s", tab.tab_index + 1, tab.active_pane.title, icon)
+    local title = string.format(" %s ", tab.active_pane.title)
     local len = string.len(title)
     if len < max_width then
         local lpadding = string.rep(" ", math.ceil((max_width - len) / 2))
@@ -148,7 +194,12 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
         title = wezterm.truncate_right(title, max_width)
     end
     return wezterm.format({
+        { Text = " " },
+        { Foreground = { Color = tab.is_active and colors.base0D or colors.base03 } },
+        { Text = icon },
+        -- { Foreground = { Color = tab.is_active and colors.base0D or colors.base03 } },
         { Text = title },
+        "ResetAttributes",
     })
 end)
 
