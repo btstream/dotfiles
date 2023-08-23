@@ -29,6 +29,7 @@ zi snippet OMZL::history.zsh
 zi snippet OMZL::functions.zsh
 zi snippet OMZL::misc.zsh
 zi snippet OMZL::key-bindings.zsh
+zi snippet OMZL::termsupport.zsh
 
 zi snippet OMZP::git
 zi snippet OMZP::sudo
