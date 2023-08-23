@@ -2,27 +2,7 @@ local wezterm = require("wezterm")
 local gen_font_config = require("utils").gen_font_config
 local table_merge = require("utils").table_merge
 local darken = require("utils.colors").darken
-
-function string:split(sep)
-    local sep, fields = sep or ":", {}
-    local pattern = string.format("([^%s]+)", sep)
-    self:gsub(pattern, function(c)
-        fields[#fields + 1] = c
-    end)
-    return fields
-end
-
-local function platform()
-    if wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin" then
-        return "macOS"
-    end
-
-    if wezterm.target_triple == "x86_64-unknown-linux-gnu" then
-        return "Linux"
-    end
-
-    return "Windows"
-end
+local platform = require("utils").platform
 
 ----------------------------------------------------------------------
 --                     Loadding Custom Configs                      --
@@ -153,35 +133,7 @@ config.colors.tab_bar = {
 config.tab_max_width = 26
 -- config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-    local domain_name = tab.active_pane.domain_name
-
-    -- set icon indicator
-    local icon
-    if domain_name == "local" then
-        local p = platform()
-        if p == "Windows" then
-            icon = wezterm.nerdfonts.md_microsoft_windows
-        end
-
-        if p == "macOS" then
-            icon = wezterm.nerdfonts.linux_apple
-        end
-
-        if p == "Linux" then
-            icon = wezterm.nerdfonts.linux_archlinux
-        end
-    else
-        local domain = domain_name:split(":")
-        if domain[1] == "WSL" then
-            if domain[2] == "Arch" then
-                icon = wezterm.nerdfonts.linux_archlinux
-            end
-        end
-
-        if domain[1]:lower() == "ssh" then
-            icon = wezterm.nerdfonts.md_ssh
-        end
-    end
+    local icon = require("utils.ui").gen_tab_icon(tab.active_pane)
 
     -- local title = string.format("%s. %s %s", tab.tab_index + 1, tab.active_pane.title, icon)
     local title = string.format(" %s ", tab.active_pane.title)

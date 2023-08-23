@@ -1,5 +1,14 @@
 local wezterm = require("wezterm")
 
+function string:split(sep)
+    local sep, fields = sep or ":", {}
+    local pattern = string.format("([^%s]+)", sep)
+    self:gsub(pattern, function(c)
+        fields[#fields + 1] = c
+    end)
+    return fields
+end
+
 --- merge tables
 ---@vararg table tables to be merged
 ---@return table
@@ -53,7 +62,20 @@ local function gen_font_config(t)
     return wezterm.font_with_fallback(fonts), { { intensity = "Bold", font = wezterm.font_with_fallback(bold_fonts) } }
 end
 
+local function platform()
+    if wezterm.target_triple == "x86_64-apple-darwin" or wezterm.target_triple == "aarch64-apple-darwin" then
+        return "macOS"
+    end
+
+    if wezterm.target_triple == "x86_64-unknown-linux-gnu" then
+        return "Linux"
+    end
+
+    return "Windows"
+end
+
 return {
     table_merge = table_merge,
     gen_font_config = gen_font_config,
+    platform = platform,
 }
