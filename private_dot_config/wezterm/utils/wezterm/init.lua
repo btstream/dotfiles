@@ -78,6 +78,10 @@ function M.get_pane_app(pane)
     app = app:split(sep)
     app = app[#app]
 
+    if app == nil then
+        return nil
+    end
+
     if M.platform() == "Windows" then
         return app:split(".")[1]
     end
