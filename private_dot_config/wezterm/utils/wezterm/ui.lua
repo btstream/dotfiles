@@ -73,6 +73,15 @@ local function gen_tab_icon(pane)
     end
 end
 
+local function get_support_apps()
+    local ret = {}
+    for key, _ in pairs(APP_ICONS) do
+        table.insert(ret, key)
+    end
+    return ret
+end
+
 return {
     gen_tab_icon = gen_tab_icon,
+    get_support_apps = get_support_apps,
 }
