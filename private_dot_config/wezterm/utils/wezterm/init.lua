@@ -114,7 +114,7 @@ function M.get_pane_app(pane)
             return pane:get_title()
         end) and pane:get_title() or pane.title
 
-        if domain.domain == "wsl" or domain.domain == "ssh" and (title == "v" or title == "e") then
+        if (domain.domain == "wsl" or domain.domain == "ssh") and (title == "v" or title == "e") then
             return "nvim"
         end
 
