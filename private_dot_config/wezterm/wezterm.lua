@@ -185,7 +185,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
     -- use a different color for unseen background output
     if has_unseen_output then
-        table.insert(format, { Foreground = { Color = darken(colors.base0E, 0.65) } })
+        table.insert(format, { Foreground = { Color = darken(colors.base0E, 0.45) } })
     end
     table.insert(format, { Text = icon })
     table.insert(format, "ResetAttributes")
