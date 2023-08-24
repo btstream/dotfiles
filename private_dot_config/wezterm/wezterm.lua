@@ -1,8 +1,9 @@
 local wezterm = require("wezterm")
-local gen_font_config = require("utils").gen_font_config
+
 local table_merge = require("utils").table_merge
 local darken = require("utils.colors").darken
-local platform = require("utils").platform
+local gen_font_config = require("utils.wezterm").gen_font_config
+local platform = require("utils.wezterm").platform
 
 ----------------------------------------------------------------------
 --                     Loadding Custom Configs                      --
@@ -87,7 +88,7 @@ config.window_frame = {
     }),
     font_size = platform() == "macOS" and 12 or 10,
     inactive_titlebar_bg = colors.base00,
-    active_titlebar_bg = darken(colors.base00, 0.15),
+    active_titlebar_bg = darken(colors.base00, 0.45),
     inactive_titlebar_fg = colors.base00,
     active_titlebar_fg = colors.base05,
     inactive_titlebar_border_bottom = colors.base07,
@@ -101,7 +102,7 @@ config.window_frame = {
 config.colors.tab_bar = {
 
     -- for use case if use_fancy_tab_bar = false
-    background = darken(colors.base00, 0.15),
+    background = darken(colors.base00, 0.45),
 
     -- active tab
     active_tab = {
@@ -111,18 +112,18 @@ config.colors.tab_bar = {
 
     -- inactive tab
     inactive_tab = {
-        bg_color = darken(colors.base00, 0.15),
+        bg_color = darken(colors.base00, 0.45),
         fg_color = colors.base03,
     },
     inactive_tab_hover = {
         bg_color = colors.base02,
         fg_color = colors.base07,
     },
-    inactive_tab_edge = darken(colors.base00, 0.15),
+    inactive_tab_edge = darken(colors.base00, 0.45),
 
     -- new tab button
     new_tab = {
-        bg_color = darken(colors.base00, 0.15),
+        bg_color = darken(colors.base00, 0.45),
         fg_color = colors.base03,
     },
     new_tab_hover = {
@@ -130,10 +131,10 @@ config.colors.tab_bar = {
         fg_color = colors.base07,
     },
 }
-config.tab_max_width = 26
+config.tab_max_width = 42
 -- config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-    local icon = require("utils.ui").gen_tab_icon(tab.active_pane)
+    local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
 
     -- local title = string.format("%s. %s %s", tab.tab_index + 1, tab.active_pane.title, icon)
     local title = string.format(" %s ", tab.active_pane.title)
