@@ -10,6 +10,8 @@ local APP_ICONS = {
 
     -- package manager
     brew = wezterm.nerdfonts.md_package_variant_closed_plus,
+    pacman = wezterm.nerdfonts.md_package_variant_closed_plus,
+    yay = wezterm.nerdfonts.md_package_variant_closed_plus,
 
     -- python and so on
     python = wezterm.nerdfonts.dev_python,

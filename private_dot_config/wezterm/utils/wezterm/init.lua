@@ -69,6 +69,14 @@ local function guess_app_name_from_title(pane)
         return pane:get_title()
     end) and pane:get_title() or pane.title
 
+    local sep = M.platform() == "Windows" and "\\" or "/"
+    sep = M.get_pane_domain_info(pane).domain == "wsl" and "/" or sep
+
+    -- current title is a path, suitable for oh-my-zsh's termsupport
+    if #title:split(sep) > 1 then
+        return nil
+    end
+
     for _, value in pairs(require("utils.wezterm.ui").get_supported_apps()) do
         if title:lower():find(value) then
             return value
