@@ -64,42 +64,43 @@ function M.get_pane_domain_info(pane)
     }
 end
 
-function M.get_pane_app(pane)
-    -- local domain = M.get_pane_domain_info(pane)
+local function guess_app_name_from_title(pane)
+    local title = pcall(function()
+        return pane:get_title()
+    end) and pane:get_title() or pane.title
 
-    -- if domain == "local" then
-    local app = pcall(function()
-        return pane:foreground_process_name()
-    end) and pane:get_foreground_process_name() or pane.foreground_process_name
-
-    local sep = M.platform() == "Windows" and "\\" or "/"
-
-    -- current app is none, try to extract app from title
-    if app == nil then
-        -- return nil
-        local title = pcall(function()
-            return pane:get_title()
-        end) and pane:get_title() or pane.title
-
-        for _, value in pairs(require("utils.wezterm.ui").get_supported_apps()) do
-            if title:lower():find(value) then
-                return value
-            end
+    for _, value in pairs(require("utils.wezterm.ui").get_supported_apps()) do
+        if title:lower():find(value) then
+            return value
         end
     end
+end
 
-    app = app:split(sep)
-    app = app[#app]
+function M.get_pane_app(pane)
+    local domain = M.get_pane_domain_info(pane)
 
-    if app == nil then
-        return nil
+    if domain == "local" then
+        local app = pcall(function()
+            return pane:foreground_process_name()
+        end) and pane:get_foreground_process_name() or pane.foreground_process_name
+
+        local sep = M.platform() == "Windows" and "\\" or "/"
+
+        app = app:split(sep)
+        app = app[#app]
+
+        if app == nil then
+            return guess_app_name_from_title(pane)
+        end
+
+        if M.platform() == "Windows" then
+            return app:split(".")[1]:lower()
+        end
+
+        return app:lower()
+    else
+        return guess_app_name_from_title(pane)
     end
-
-    if M.platform() == "Windows" then
-        return app:split(".")[1]:lower()
-    end
-
-    return app:lower()
 end
 
 return M

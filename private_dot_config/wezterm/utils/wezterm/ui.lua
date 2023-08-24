@@ -19,42 +19,12 @@ local PLATFORM_ICONS = {
     macOS = wezterm.nerdfonts.linux_apple,
 }
 
-local function gen_app_icon(pane)
-    local icon = nil
-
-    if pane.foreground_process_name == nil then
-        return nil
-    end
-
-    local sep = platform() == "Windows" and "\\" or "/"
-    local app = pane.foreground_process_name:split(sep)
-
-    app = app[#app]
-    if app then
-        if platform() == "Windows" then
-            app = app:split(".")[1]
-        end
-        print(app)
-        icon = APP_ICONS[app]
-    end
-
-    return icon
-end
-
 local function gen_tab_icon(pane)
     local domain = pane_domain(pane)
     local app = pane_app(pane)
 
-    if domain == nil then
-        return PLATFORM_ICONS[platform()]
-    end
-
-    if domain.domain == "local" then
-        if APP_ICONS[app] == nil then
-            return PLATFORM_ICONS[platform()]
-        else
-            return APP_ICONS[app]
-        end
+    if  APP_ICONS[app] ~= nil then
+        return APP_ICONS[app]
     end
 
     if domain.domain == "wsl" then
@@ -71,9 +41,11 @@ local function gen_tab_icon(pane)
     if domain.domain == "ssh" then
         return wezterm.nerdfonts.md_ssh
     end
+
+    return PLATFORM_ICONS[platform()]
 end
 
-local function get_support_apps()
+local function get_supported_apps()
     local ret = {}
     for key, _ in pairs(APP_ICONS) do
         table.insert(ret, key)
@@ -83,5 +55,5 @@ end
 
 return {
     gen_tab_icon = gen_tab_icon,
-    get_support_apps = get_support_apps,
+    get_supported_apps = get_supported_apps,
 }
