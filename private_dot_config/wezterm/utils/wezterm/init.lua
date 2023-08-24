@@ -79,7 +79,7 @@ end
 function M.get_pane_app(pane)
     local domain = M.get_pane_domain_info(pane)
 
-    if domain.domain == "local" then
+    if domain == nil or domain.domain == "local" then
         local app = pcall(function()
             return pane:foreground_process_name()
         end) and pane:get_foreground_process_name() or pane.foreground_process_name

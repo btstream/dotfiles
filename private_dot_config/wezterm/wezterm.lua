@@ -107,7 +107,7 @@ config.colors.tab_bar = {
     -- active tab
     active_tab = {
         bg_color = colors.base00,
-        fg_color = colors.base07,
+        fg_color = colors.base0D,
     },
 
     -- inactive tab
@@ -136,24 +136,62 @@ config.tab_max_width = 42
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
 
+    local has_unseen_output = false
+    if not tab.is_active then
+        for _, p in pairs(tab.panes) do
+            if p.has_unseen_output then
+                has_unseen_output = true
+                break
+            end
+        end
+    end
+
     -- local title = string.format("%s. %s %s", tab.tab_index + 1, tab.active_pane.title, icon)
     local title = string.format(" %s ", tab.active_pane.title)
     local len = string.len(title)
     if len < max_width then
-        local lpadding = string.rep(" ", math.ceil((max_width - len) / 2))
-        local rpadding = string.rep(" ", math.floor((max_width - len) / 2))
+        local lpadding_length = math.ceil((max_width - len) / 2) - 2
+        local rpadding_length = math.ceil((max_width - len) / 2)
+        local lpadding = string.rep(" ", lpadding_length)
+        local rpadding = string.rep(" ", rpadding_length)
         title = string.format("%s%s%s", lpadding, title, rpadding)
     else
         title = wezterm.truncate_right(title, max_width)
     end
-    return wezterm.format({
-        { Text = " " },
-        { Foreground = { Color = tab.is_active and colors.base0D or colors.base03 } },
-        { Text = icon },
-        -- { Foreground = { Color = tab.is_active and colors.base0D or colors.base03 } },
-        { Text = title },
-        "ResetAttributes",
-    })
+
+    -- generate tab colors for different status
+    local format = {}
+
+    local domain = require("utils.wezterm").get_pane_domain_info(tab.active_pane)
+    local app = require("utils.wezterm").get_pane_app(tab.active_pane)
+
+    if domain.domain == "wsl" then
+        table.insert(format, {
+            Foreground = {
+                Color = tab.is_active and colors.base0B or darken(colors.base0B, 0.45),
+            },
+        })
+    end
+
+    if domain.domain == "ssh" or app == "ssh" then
+        table.insert(format, {
+            Foreground = {
+                Color = tab.is_active and colors.base09 or darken(colors.base09, 0.45),
+            },
+        })
+    end
+
+    table.insert(format, { Text = " " })
+
+    -- use a different color for unseen background output
+    if has_unseen_output then
+        table.insert(format, { Foreground = { Color = darken(colors.base0E, 0.65) } })
+    end
+    table.insert(format, { Text = icon })
+    table.insert(format, "ResetAttributes")
+    table.insert(format, { Text = title })
+
+    return wezterm.format(format)
 end)
 
 config.window_padding = {
