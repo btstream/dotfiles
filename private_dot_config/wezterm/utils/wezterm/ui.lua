@@ -4,12 +4,21 @@ local pane_domain = require("utils.wezterm").get_pane_domain_info
 local pane_app = require("utils.wezterm").get_pane_app
 
 local APP_ICONS = {
+    -- eidtors
     nvim = wezterm.nerdfonts.dev_vim,
     vim = wezterm.nerdfonts.dev_vim,
 
-    ssh = wezterm.nerdfonts.md_ssh,
-    lazygit = wezterm.nerdfonts.dev_git,
+    -- package manager
+    brew = wezterm.nerdfonts.md_package_variant_closed_plus,
 
+    -- python and so on
+    python = wezterm.nerdfonts.dev_python,
+    python3 = wezterm.nerdfonts.dev_python,
+
+    -- ssh and other remote control tools
+    ssh = wezterm.nerdfonts.md_ssh,
+
+    lazygit = wezterm.nerdfonts.dev_git,
     btop = wezterm.nerdfonts.md_monitor_dashboard,
 }
 
@@ -23,7 +32,9 @@ local function gen_tab_icon(pane)
     local domain = pane_domain(pane)
     local app = pane_app(pane)
 
-    if  APP_ICONS[app] ~= nil then
+    print(app)
+
+    if APP_ICONS[app] ~= nil then
         return APP_ICONS[app]
     end
 

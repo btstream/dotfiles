@@ -60,7 +60,7 @@ function M.get_pane_domain_info(pane)
 
     return {
         domain = domain[1]:lower(),
-        extra = domain[2]:lower(),
+        extra = domain[2] ~= nil and domain[2]:lower() or nil,
     }
 end
 
@@ -93,12 +93,31 @@ function M.get_pane_app(pane)
             return guess_app_name_from_title(pane)
         end
 
+        if app == "zsh" or app == "bash" or app:find("^python") or app:find("^ruby") then
+            local my_app = guess_app_name_from_title(pane)
+            if my_app then
+                return my_app
+            elseif app:find("^python") or app:find("^ruby") then
+                return app
+            else
+                return nil
+            end
+        end
+
         if M.platform() == "Windows" then
             return app:split(".")[1]:lower()
         end
 
         return app:lower()
     else
+        local title = pcall(function()
+            return pane:get_title()
+        end) and pane:get_title() or pane.title
+
+        if domain.domain == "wsl" or domain.domain == "ssh" and (title == "v" or title == "e") then
+            return "nvim"
+        end
+
         return guess_app_name_from_title(pane)
     end
 end
