@@ -3,6 +3,7 @@ local fonts = {}
 local bold_fonts = {}
 
 local M = {}
+local linux_dist_id = nil
 
 --- generate font config
 ---@param t table
@@ -33,6 +34,29 @@ function M.platform()
     end
 
     return "Windows"
+end
+
+function M.os_release()
+    if M.platform() ~= "Linux" then
+        return M.platform()
+    end
+
+    if linux_dist_id then
+        return linux_dist_id
+    end
+
+    local os_release = io.open("/etc/os-release")
+    if os_release then
+        for l in os_release:lines("l") do
+            local ll = l:split("=")
+            if ll[1] == "ID" then
+                linux_dist_id = ll[2]:lower()
+                break
+            end
+        end
+    end
+
+    return linux_dist_id
 end
 
 function M.get_pane_domain_info(pane)

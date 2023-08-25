@@ -34,7 +34,7 @@ local function gen_tab_icon(pane)
     local domain = pane_domain(pane)
     local app = pane_app(pane)
 
-    print(app)
+    -- print(app)
 
     if APP_ICONS[app] ~= nil then
         return APP_ICONS[app]
@@ -42,7 +42,7 @@ local function gen_tab_icon(pane)
 
     if domain.domain == "wsl" then
         local icon = domain.dist == "arch" and wezterm.nerdfonts.linux_archlinux
-            or wezterm.nerdfonts["linux_" .. domain.dist]
+            or (wezterm.nerdfonts["linux_" .. domain.dist] or wezterm.nerdfonts.linux_tux)
 
         if icon ~= nil then
             return icon
@@ -53,6 +53,15 @@ local function gen_tab_icon(pane)
 
     if domain.domain == "ssh" then
         return wezterm.nerdfonts.md_ssh
+    end
+
+    if platform() == "Linux" then
+        local linux_dist = require("utils.wezterm").os_release()
+        if linux_dist == "arch" then
+            return wezterm.nerdfonts.linux_archlinux
+        else
+            return wezterm.nerdfonts["linux_" .. linux_dist] or wezterm.nerdfonts.linux_tux
+        end
     end
 
     return PLATFORM_ICONS[platform()]
