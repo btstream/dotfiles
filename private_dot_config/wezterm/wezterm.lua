@@ -80,11 +80,11 @@ config.initial_rows = 30
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_frame = {
     font = wezterm.font_with_fallback({
-        -- { family = "JetBrainsMono Nerd Font Propo", weight = "Bold" },
+        { family = "Iosevka Nerd Font Propo", weight = "Bold" },
+        { family = "Agave Nerd Font Propo", weight = "Bold" },
         { family = "Libertinus Sans", weight = "Bold" },
-        { family = "Noto Serif", weight = "Bold" },
-        { family = "Times", weight = "Bold" },
-        { family = "Times New Roman", weight = "Bold" },
+        { family = "JetBrainsMono Nerd Font Propo", weight = "Bold" },
+        { family = "LXGW WenKai Mono", weight = "Bold" },
     }),
     font_size = platform() == "macOS" and 12 or 10,
     inactive_titlebar_bg = colors.base00,
@@ -131,11 +131,12 @@ config.colors.tab_bar = {
         fg_color = colors.base07,
     },
 }
-config.tab_max_width = 42
+config.tab_max_width = 26
 -- config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
 
+    print(max_width)
     local has_unseen_output = false
     if not tab.is_active then
         for _, p in pairs(tab.panes) do
@@ -147,16 +148,19 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     end
 
     -- local title = string.format("%s. %s %s", tab.tab_index + 1, tab.active_pane.title, icon)
-    local title = string.format(" %s ", tab.active_pane.title)
-    local len = string.len(title)
+    local title = tab.active_pane.title
+    local len = wezterm.column_width(title)
     if len < max_width then
-        local lpadding_length = math.ceil((max_width - len) / 2) - 2
-        local rpadding_length = math.ceil((max_width - len) / 2)
-        local lpadding = string.rep(" ", lpadding_length)
-        local rpadding = string.rep(" ", rpadding_length)
+        local lpadding_length = math.ceil((max_width - len) / 2)
+        local rpadding_length = max_width - len - lpadding_length
+        -- local rpadding_length = math.ceil((max_width - len) / 2)
+        -- print(lpadding_length, rpadding_length)
+        local lpadding = wezterm.pad_left(" ", lpadding_length)
+        local rpadding = wezterm.pad_right(" ", rpadding_length)
         title = string.format("%s%s%s", lpadding, title, rpadding)
+        -- print(title)
     else
-        title = wezterm.truncate_right(title, max_width)
+        title = " " .. wezterm.truncate_right(title, max_width - 4) .. " "
     end
 
     -- generate tab colors for different status
