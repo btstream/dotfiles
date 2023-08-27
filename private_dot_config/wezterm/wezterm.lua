@@ -80,11 +80,12 @@ config.initial_rows = 30
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_frame = {
     font = wezterm.font_with_fallback({
-        { family = "Iosevka Nerd Font Propo", weight = "Bold" },
-        { family = "Agave Nerd Font Propo", weight = "Bold" },
-        { family = "Libertinus Sans", weight = "Bold" },
-        { family = "JetBrainsMono Nerd Font Propo", weight = "Bold" },
-        { family = "LXGW WenKai Mono", weight = "Bold" },
+        { family = "ShureTechMono Nerd Font" },
+        { family = "Iosevka Nerd Font Propo" },
+        { family = "Agave Nerd Font Propo" },
+        { family = "Libertinus Sans" },
+        { family = "JetBrainsMono Nerd Font Propo" },
+        { family = "LXGW WenKai Mono" },
     }),
     font_size = platform() == "macOS" and 12 or 10,
     inactive_titlebar_bg = colors.base00,
