@@ -1,9 +1,9 @@
 local wezterm = require("wezterm")
 local fonts = {}
 local bold_fonts = {}
+local linux_dist_id = nil
 
 local M = {}
-local linux_dist_id = nil
 
 --- generate font config
 ---@param t table
@@ -121,19 +121,21 @@ function M.get_pane_app(pane)
         app = app:split(sep)
         app = app[#app]
 
-        if app == nil then
-            return guess_app_name_from_title(pane)
-        end
+        -- wezterm.log_info(string.format("detected app at running is %s", app))
 
-        if app == "zsh" or app == "bash" or app:find("^python") or app:find("^ruby") then
-            local my_app = guess_app_name_from_title(pane)
-            if my_app then
-                return my_app
-            elseif app:find("^python") or app:find("^ruby") then
-                return app
-            else
-                return nil
-            end
+        -- some of the program is writing with shell script,
+        -- which may indicator foreground_process_name with a
+        -- script interpreter
+        if
+            app == nil
+            or app == "zsh"
+            or app == "bash"
+            or app == "cmd.exe"
+            or app == "pwsh.exe"
+            or app:find("^python")
+            or app:find("^ruby")
+        then
+            return guess_app_name_from_title(pane)
         end
 
         if M.platform() == "Windows" then
