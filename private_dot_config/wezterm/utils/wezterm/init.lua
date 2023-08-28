@@ -118,8 +118,8 @@ function M.get_pane_app(pane)
 
         local sep = M.platform() == "Windows" and "\\" or "/"
 
-        app = app:split(sep)
-        app = app[#app]
+        app = app and app:split(sep) or nil
+        app = app and app[#app] or nil
 
         -- wezterm.log_info(string.format("detected app at running is %s", app))
 

@@ -3,6 +3,7 @@ local wezterm = require("wezterm")
 local table_merge = require("utils").table_merge
 local darken = require("utils.colors").darken
 local gen_font_config = require("utils.wezterm").gen_font_config
+local get_pane_app = require("utils.wezterm").get_pane_app
 local platform = require("utils.wezterm").platform
 
 ----------------------------------------------------------------------
@@ -199,8 +200,27 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 end)
 
 config.window_padding = {
-    bottom = 0,
+    left = "1cell",
+    right = "1cell",
+    top = ".5cell",
+    bottom = ".5cell",
 }
+
+wezterm.on("update-status", function(window, pane)
+    local config_overrides = window:get_config_overrides() or {}
+    local app = get_pane_app(pane)
+    if app == "nvim" or app == "vim" then
+        config_overrides.window_padding = {
+            left = 0,
+            right = 0,
+            top = ".3cell",
+            bottom = 0,
+        }
+    else
+        config_overrides.window_padding = config.window_padding
+    end
+    window:set_config_overrides(config_overrides)
+end)
 
 ----------------------------------------------------------------------
 --                         Command Palette                          --
