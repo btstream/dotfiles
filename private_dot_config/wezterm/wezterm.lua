@@ -206,21 +206,22 @@ config.window_padding = {
     bottom = ".5cell",
 }
 
-wezterm.on("update-status", function(window, pane)
-    local config_overrides = window:get_config_overrides() or {}
-    local app = get_pane_app(pane)
-    if app == "nvim" or app == "vim" then
-        config_overrides.window_padding = {
-            left = 0,
-            right = 0,
-            top = ".3cell",
-            bottom = 0,
-        }
-    else
-        config_overrides.window_padding = config.window_padding
-    end
-    window:set_config_overrides(config_overrides)
-end)
+---- update padding for neovim, disable now for a better consistent tab change effect
+-- wezterm.on("update-status", function(window, pane)
+--     local config_overrides = window:get_config_overrides() or {}
+--     local app = get_pane_app(pane)
+--     if app == "nvim" or app == "vim" then
+--         config_overrides.window_padding = {
+--             left = 0,
+--             right = 0,
+--             top = ".3cell",
+--             bottom = 0,
+--         }
+--     else
+--         config_overrides.window_padding = config.window_padding
+--     end
+--     window:set_config_overrides(config_overrides)
+-- end)
 
 ----------------------------------------------------------------------
 --                         Command Palette                          --
