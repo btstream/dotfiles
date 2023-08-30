@@ -7,7 +7,7 @@ local get_pane_app = require("utils.wezterm").get_pane_app
 local platform = require("utils.wezterm").platform
 
 ----------------------------------------------------------------------
---                     Loadding Custom Configs                      --
+--                     Loading Custom Configs                      --
 ----------------------------------------------------------------------
 
 -- colors
@@ -71,7 +71,7 @@ config.colors = {
     },
 }
 
--- init windo size
+-- init window size
 config.initial_cols = 155
 config.initial_rows = 30
 
@@ -81,10 +81,10 @@ config.initial_rows = 30
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_frame = {
     font = wezterm.font_with_fallback({
+        { family = "Libertinus Sans" },
         { family = "ShureTechMono Nerd Font" },
         { family = "Iosevka Nerd Font Propo" },
         { family = "Agave Nerd Font Propo" },
-        { family = "Libertinus Sans" },
         { family = "JetBrainsMono Nerd Font Propo" },
         { family = "LXGW WenKai Mono" },
     }),
@@ -133,7 +133,7 @@ config.colors.tab_bar = {
         fg_color = colors.base07,
     },
 }
-config.tab_max_width = 26
+config.tab_max_width = 42
 -- config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
@@ -148,23 +148,45 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
         end
     end
 
-    -- local title = string.format("%s. %s %s", tab.tab_index + 1, tab.active_pane.title, icon)
-    local title = tab.active_pane.title
-    local len = wezterm.column_width(title)
-    if len < max_width then
-        local lpadding_length = math.ceil((max_width - len) / 2)
-        local rpadding_length = max_width - len - lpadding_length
-        -- local rpadding_length = math.ceil((max_width - len) / 2)
-        -- print(lpadding_length, rpadding_length)
-        local lpadding = wezterm.pad_left(" ", lpadding_length)
-        local rpadding = wezterm.pad_right(" ", rpadding_length)
-        title = string.format("%s%s%s", lpadding, title, rpadding)
-        -- print(title)
-    else
-        title = " " .. wezterm.truncate_right(title, max_width - 4) .. " "
+    ----------------------------------------------------------------------
+    --                      Make tile align center                      --
+    ----------------------------------------------------------------------
+
+    -- calculating tab width dynamically
+    local current_dimension = wezterm.GLOBAL.current_dimension
+    if current_dimension then
+        -- best scale_size for current screen
+        local scale_size = current_dimension.dpi / 96
+        -- physical width of one column character
+        local phy_colomn_width = wezterm.column_width(" ") * config.window_frame.font_size * scale_size
+        -- how many column a tab title should have
+        local width = math.ceil(current_dimension.pixel_width / phy_colomn_width / #tabs)
+        max_width = max_width < width and max_width or width
     end
 
-    -- generate tab colors for different status
+    local title = tab.active_pane.title
+
+    -- check if need to truncate title
+    if wezterm.column_width(title) > max_width then
+        title = string.format(
+            " %s ",
+            wezterm.truncate_right(title, max_width - (wezterm.column_width(icon) + wezterm.column_width(" ")))
+        )
+    end
+    local len = wezterm.column_width(title)
+
+    local lpadding_length = math.ceil((max_width - len) / 2)
+    local rpadding_length = max_width - len - lpadding_length
+    -- local rpadding_length = math.ceil((max_width - len) / 2)
+    -- print(lpadding_length, rpadding_length)
+    local lpadding = wezterm.pad_left(" ", lpadding_length)
+    local rpadding = wezterm.pad_right(" ", rpadding_length)
+    title = string.format("%s%s%s", lpadding, title, rpadding)
+    -- print(wezterm.column_width(title))
+
+    ----------------------------------------------------------------------
+    --           generate different colors for different mode           --
+    ----------------------------------------------------------------------
     local format = {}
 
     local domain = require("utils.wezterm").get_pane_domain_info(tab.active_pane)
@@ -186,9 +208,10 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
         })
     end
 
+    ----------------------------------------------------------------------
+    --                      generate return result                      --
+    ----------------------------------------------------------------------
     table.insert(format, { Text = " " })
-
-    -- use a different color for unseen background output
     if has_unseen_output then
         table.insert(format, { Foreground = { Color = darken(colors.base0E, 0.45) } })
     end
@@ -205,6 +228,10 @@ config.window_padding = {
     top = ".5cell",
     bottom = ".5cell",
 }
+
+wezterm.on("update-status", function(window, _)
+    wezterm.GLOBAL.current_dimension = window:get_dimensions()
+end)
 
 ---- update padding for neovim, disable now for a better consistent tab change effect
 -- wezterm.on("update-status", function(window, pane)
