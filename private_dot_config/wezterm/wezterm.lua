@@ -81,11 +81,11 @@ config.initial_rows = 30
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_frame = {
     font = wezterm.font_with_fallback({
-        { family = "Libertinus Sans" },
         { family = "ShureTechMono Nerd Font" },
         { family = "Iosevka Nerd Font Propo" },
         { family = "Agave Nerd Font Propo" },
         { family = "JetBrainsMono Nerd Font Propo" },
+        { family = "Libertinus Sans" },
         { family = "LXGW WenKai Mono" },
     }),
     font_size = platform() == "macOS" and 12 or 10,
@@ -133,7 +133,7 @@ config.colors.tab_bar = {
         fg_color = colors.base07,
     },
 }
-config.tab_max_width = 42
+config.tab_max_width = 28
 -- config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
