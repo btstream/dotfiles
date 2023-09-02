@@ -210,7 +210,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     if wezterm.column_width(title) > max_width then
         title = string.format(
             " %s ",
-            wezterm.truncate_right(title, max_width - (wezterm.column_width(icon) + wezterm.column_width(" ")))
+            wezterm.truncate_right(title, max_width - (wezterm.column_width(icon) + wezterm.column_width(" ")) - 6)
         )
     end
     local len = wezterm.column_width(title)
