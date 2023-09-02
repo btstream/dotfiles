@@ -71,6 +71,8 @@ config.colors = {
     },
 }
 
+local dbg = darken(colors.base00, 0.45)
+
 -- init window size
 config.initial_cols = 155
 config.initial_rows = 30
@@ -90,7 +92,7 @@ config.window_frame = {
     }),
     font_size = platform() == "macOS" and 12 or 10,
     inactive_titlebar_bg = colors.base00,
-    active_titlebar_bg = darken(colors.base00, 0.45),
+    active_titlebar_bg = dbg,
     inactive_titlebar_fg = colors.base00,
     active_titlebar_fg = colors.base05,
     inactive_titlebar_border_bottom = colors.base07,
@@ -100,11 +102,49 @@ config.window_frame = {
     button_hover_fg = colors.base07,
     button_hover_bg = colors.base02,
 }
--- config.use_fancy_tab_bar = false
+
+-- disable fancy tab_bar and setting button for windows and linux
+-- custom window button for windows and linux
+if not config.use_fancy_tab_bar and platform ~= "macOS" then
+    config.use_fancy_tab_bar = false
+    config.tab_bar_style = {
+        window_hide = wezterm.format({
+            { Foreground = { Color = darken(colors.base0F, 0.45) } },
+            { Background = { Color = dbg } },
+            { Text = "  " .. wezterm.nerdfonts.fa_minus_circle .. " " },
+        }),
+        window_hide_hover = wezterm.format({
+            { Foreground = { Color = colors.base0F } },
+            { Background = { Color = dbg } },
+            { Text = "  " .. wezterm.nerdfonts.fa_minus_circle .. " " },
+        }),
+        window_maximize = wezterm.format({
+            { Foreground = { Color = darken(colors.base0A, 0.45) } },
+            { Background = { Color = dbg } },
+            { Text = " " .. wezterm.nerdfonts.fa_plus_circle .. " " },
+        }),
+        window_maximize_hover = wezterm.format({
+            { Foreground = { Color = colors.base0A } },
+            { Background = { Color = dbg } },
+            { Text = " " .. wezterm.nerdfonts.fa_plus_circle .. " " },
+        }),
+        window_close = wezterm.format({
+            { Foreground = { Color = darken(colors.base0B, 0.45) } },
+            { Background = { Color = dbg } },
+            { Text = " " .. wezterm.nerdfonts.fa_times_circle .. "  " },
+        }),
+        window_close_hover = wezterm.format({
+            { Foreground = { Color = colors.base0B } },
+            { Background = { Color = dbg } },
+            { Text = " " .. wezterm.nerdfonts.fa_times_circle .. "  " },
+        }),
+    }
+end
+
 config.colors.tab_bar = {
 
     -- for use case if use_fancy_tab_bar = false
-    background = darken(colors.base00, 0.45),
+    background = dbg,
 
     -- active tab
     active_tab = {
@@ -114,18 +154,18 @@ config.colors.tab_bar = {
 
     -- inactive tab
     inactive_tab = {
-        bg_color = darken(colors.base00, 0.45),
+        bg_color = dbg,
         fg_color = colors.base03,
     },
     inactive_tab_hover = {
         bg_color = colors.base02,
         fg_color = colors.base07,
     },
-    inactive_tab_edge = darken(colors.base00, 0.45),
+    inactive_tab_edge = dbg,
 
     -- new tab button
     new_tab = {
-        bg_color = darken(colors.base00, 0.45),
+        bg_color = dbg,
         fg_color = colors.base03,
     },
     new_tab_hover = {
@@ -133,8 +173,8 @@ config.colors.tab_bar = {
         fg_color = colors.base07,
     },
 }
+
 config.tab_max_width = 28
--- config.hide_tab_bar_if_only_one_tab = wezterm.target_triple == "x86_64-pc-windows-msvc" and false or true
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
 
@@ -176,13 +216,16 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     local len = wezterm.column_width(title)
 
     local lpadding_length = math.ceil((max_width - len) / 2)
-    local rpadding_length = max_width - len - lpadding_length
-    -- local rpadding_length = math.ceil((max_width - len) / 2)
-    -- print(lpadding_length, rpadding_length)
+    if not config.use_fancy_tab_bar then
+        lpadding_length = lpadding_length - 1
+    end
+
     local lpadding = wezterm.pad_left(" ", lpadding_length)
+
+    local rpadding_length = max_width - len - lpadding_length
     local rpadding = wezterm.pad_right(" ", rpadding_length)
+
     title = string.format("%s%s%s", lpadding, title, rpadding)
-    -- print(wezterm.column_width(title))
 
     ----------------------------------------------------------------------
     --           generate different colors for different mode           --
