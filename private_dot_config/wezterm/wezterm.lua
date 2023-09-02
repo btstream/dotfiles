@@ -241,31 +241,39 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     local domain = require("utils.wezterm").get_pane_domain_info(tab.active_pane)
     local app = require("utils.wezterm").get_pane_app(tab.active_pane)
 
-    if domain.domain == "wsl" then
-        table.insert(format, {
-            Foreground = {
-                Color = tab.is_active and colors.base0B or darken(colors.base0B, 0.45),
-            },
-        })
-    end
+    local function add_domain_color()
+        if domain.domain == "wsl" then
+            table.insert(format, {
+                Foreground = {
+                    Color = tab.is_active and colors.base0B or darken(colors.base0B, 0.45),
+                },
+            })
+        end
 
-    if domain.domain == "ssh" or app == "ssh" then
-        table.insert(format, {
-            Foreground = {
-                Color = tab.is_active and colors.base09 or darken(colors.base09, 0.45),
-            },
-        })
+        if domain.domain == "ssh" or app == "ssh" then
+            table.insert(format, {
+                Foreground = {
+                    Color = tab.is_active and colors.base09 or darken(colors.base09, 0.45),
+                },
+            })
+        end
     end
+    add_domain_color()
 
     ----------------------------------------------------------------------
     --                      generate return result                      --
     ----------------------------------------------------------------------
     table.insert(format, { Text = " " })
     if has_unseen_output then
-        table.insert(format, { Foreground = { Color = darken(colors.base0E, 0.45) } })
+        table.insert(format, { Foreground = { Color = colors.base0E } })
     end
     table.insert(format, { Text = icon })
     table.insert(format, "ResetAttributes")
+
+    if not config.use_fancy_tab_bar then
+        add_domain_color()
+    end
+
     table.insert(format, { Text = title })
 
     return wezterm.format(format)
@@ -276,28 +284,26 @@ config.window_padding = {
     right = ".5cell",
     top = ".5cell",
     bottom = "0cell",
-    -- bottom = ".5cell",
 }
-
-wezterm.on("update-status", function(window, _)
-    wezterm.GLOBAL.current_dimension = window:get_dimensions()
-end)
 
 ---- update padding for neovim, disable now for a better consistent tab change effect
 wezterm.on("update-status", function(window, pane)
-    local config_overrides = window:get_config_overrides() or {}
-    local app = get_pane_app(pane)
-    if app == "nvim" or app == "vim" then
-        config_overrides.window_padding = {
-            left = "1cell",
-            right = ".5cell",
-            top = 0,
-            bottom = 0,
-        }
-    else
-        config_overrides.window_padding = config.window_padding
+    wezterm.GLOBAL.current_dimension = window:get_dimensions()
+    if platform() ~= "Windows" then
+        local config_overrides = window:get_config_overrides() or {}
+        local app = get_pane_app(pane)
+        if app == "nvim" or app == "vim" then
+            config_overrides.window_padding = {
+                left = "1cell",
+                right = ".5cell",
+                top = 0,
+                bottom = 0,
+            }
+        else
+            config_overrides.window_padding = config.window_padding
+        end
+        window:set_config_overrides(config_overrides)
     end
-    window:set_config_overrides(config_overrides)
 end)
 
 ----------------------------------------------------------------------
