@@ -107,16 +107,22 @@ config.window_frame = {
 -- custom window button for windows and linux
 if not config.use_fancy_tab_bar and platform ~= "macOS" then
     config.use_fancy_tab_bar = false
+    local btn_padding_left = "  "
+    local btn_padding_right = "  "
+    if platform() == "Linux" then
+        btn_padding_left = " "
+        btn_padding_right = " "
+    end
     config.tab_bar_style = {
         window_hide = wezterm.format({
             { Foreground = { Color = darken(colors.base0F, 0.45) } },
             { Background = { Color = dbg } },
-            { Text = "  " .. wezterm.nerdfonts.fa_circle .. " " },
+            { Text = btn_padding_left .. wezterm.nerdfonts.fa_circle .. " " },
         }),
         window_hide_hover = wezterm.format({
             { Foreground = { Color = colors.base0F } },
             { Background = { Color = dbg } },
-            { Text = "  " .. wezterm.nerdfonts.fa_minus_circle .. " " },
+            { Text = btn_padding_left .. wezterm.nerdfonts.fa_minus_circle .. " " },
         }),
         window_maximize = wezterm.format({
             { Foreground = { Color = darken(colors.base0A, 0.45) } },
@@ -131,12 +137,12 @@ if not config.use_fancy_tab_bar and platform ~= "macOS" then
         window_close = wezterm.format({
             { Foreground = { Color = darken(colors.base0B, 0.45) } },
             { Background = { Color = dbg } },
-            { Text = " " .. wezterm.nerdfonts.fa_circle .. "  " },
+            { Text = " " .. wezterm.nerdfonts.fa_circle .. btn_padding_right },
         }),
         window_close_hover = wezterm.format({
             { Foreground = { Color = colors.base0B } },
             { Background = { Color = dbg } },
-            { Text = " " .. wezterm.nerdfonts.fa_times_circle .. "  " },
+            { Text = " " .. wezterm.nerdfonts.fa_times_circle .. btn_padding_right },
         }),
     }
 end
@@ -267,9 +273,10 @@ end)
 
 config.window_padding = {
     left = "1cell",
-    right = "1cell",
+    right = ".5cell",
     top = ".5cell",
-    bottom = ".5cell",
+    bottom = "0cell",
+    -- bottom = ".5cell",
 }
 
 wezterm.on("update-status", function(window, _)
@@ -277,21 +284,21 @@ wezterm.on("update-status", function(window, _)
 end)
 
 ---- update padding for neovim, disable now for a better consistent tab change effect
--- wezterm.on("update-status", function(window, pane)
---     local config_overrides = window:get_config_overrides() or {}
---     local app = get_pane_app(pane)
---     if app == "nvim" or app == "vim" then
---         config_overrides.window_padding = {
---             left = 0,
---             right = 0,
---             top = ".3cell",
---             bottom = 0,
---         }
---     else
---         config_overrides.window_padding = config.window_padding
---     end
---     window:set_config_overrides(config_overrides)
--- end)
+wezterm.on("update-status", function(window, pane)
+    local config_overrides = window:get_config_overrides() or {}
+    local app = get_pane_app(pane)
+    if app == "nvim" or app == "vim" then
+        config_overrides.window_padding = {
+            left = "1cell",
+            right = ".5cell",
+            top = 0,
+            bottom = 0,
+        }
+    else
+        config_overrides.window_padding = config.window_padding
+    end
+    window:set_config_overrides(config_overrides)
+end)
 
 ----------------------------------------------------------------------
 --                         Command Palette                          --
