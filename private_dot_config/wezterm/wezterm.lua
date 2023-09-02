@@ -212,23 +212,33 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
     local title = tab.active_pane.title
 
+    local extra_space = wezterm.column_width(icon) + wezterm.column_width(" ")
     -- check if need to truncate title
-    if wezterm.column_width(title) > max_width then
-        title = string.format(
-            " %s ",
-            wezterm.truncate_left(title, max_width - (wezterm.column_width(icon) + wezterm.column_width(" ")) - 6)
-        )
+    if wezterm.column_width(title) >= max_width or (max_width - wezterm.column_width(title) < extra_space) then
+        title = string.format(" %s ", wezterm.truncate_left(title, max_width - extra_space - 4))
     end
     local len = wezterm.column_width(title)
+    -- print(
+    --     tab.active_pane.title,
+    --     "<><><>",
+    --     wezterm.column_width(tab.active_pane.title),
+    --     max_width,
+    --     extra_space,
+    --     "<><><>",
+    --     title,
+    --     "<><><>",
+    --     wezterm.column_width(title)
+    -- )
 
     local lpadding_length = math.ceil((max_width - len) / 2)
     if not config.use_fancy_tab_bar then
         lpadding_length = lpadding_length - wezterm.column_width(icon) - wezterm.column_width(" ")
     end
-
+    lpadding_length = lpadding_length > 0 and lpadding_length or 0
     local lpadding = wezterm.pad_left(" ", lpadding_length)
 
     local rpadding_length = max_width - len - lpadding_length
+    rpadding_length = rpadding_length > 0 and rpadding_length or 0
     local rpadding = wezterm.pad_right(" ", rpadding_length)
 
     title = string.format("%s%s%s", lpadding, title, rpadding)
