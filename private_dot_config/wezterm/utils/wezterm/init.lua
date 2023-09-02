@@ -93,6 +93,11 @@ local function guess_app_name_from_title(pane)
         return pane:get_title()
     end) and pane:get_title() or pane.title
 
+    -- very personal, for alias as on zsh
+    if title == "v" or title == "e" then
+        return "vim"
+    end
+
     local sep = M.platform() == "Windows" and "\\" or "/"
     sep = M.get_pane_domain_info(pane).domain == "wsl" and "/" or sep
 
