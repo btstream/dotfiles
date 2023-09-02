@@ -19,7 +19,7 @@ local APP_ICONS = {
     python3 = wezterm.nerdfonts.dev_python,
 
     -- ssh and other remote control tools
-    ssh = wezterm.nerdfonts.md_ssh,
+    ssh = wezterm.nerdfonts.md_remote_desktop,
 
     lazygit = wezterm.nerdfonts.dev_git,
     btop = wezterm.nerdfonts.md_monitor_dashboard,
@@ -53,7 +53,7 @@ local function gen_tab_icon(pane)
     end
 
     if domain.domain == "ssh" then
-        return wezterm.nerdfonts.md_ssh
+        return APP_ICONS["ssh"]
     end
 
     if platform() == "Linux" then
