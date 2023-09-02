@@ -217,7 +217,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
     local lpadding_length = math.ceil((max_width - len) / 2)
     if not config.use_fancy_tab_bar then
-        lpadding_length = lpadding_length - 1
+        lpadding_length = lpadding_length - wezterm.column_width(icon) - wezterm.column_width(" ")
     end
 
     local lpadding = wezterm.pad_left(" ", lpadding_length)
