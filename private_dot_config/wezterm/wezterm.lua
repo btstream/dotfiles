@@ -111,7 +111,7 @@ if not config.use_fancy_tab_bar and platform ~= "macOS" then
         window_hide = wezterm.format({
             { Foreground = { Color = darken(colors.base0F, 0.45) } },
             { Background = { Color = dbg } },
-            { Text = "  " .. wezterm.nerdfonts.fa_minus_circle .. " " },
+            { Text = "  " .. wezterm.nerdfonts.fa_circle .. " " },
         }),
         window_hide_hover = wezterm.format({
             { Foreground = { Color = colors.base0F } },
@@ -121,7 +121,7 @@ if not config.use_fancy_tab_bar and platform ~= "macOS" then
         window_maximize = wezterm.format({
             { Foreground = { Color = darken(colors.base0A, 0.45) } },
             { Background = { Color = dbg } },
-            { Text = " " .. wezterm.nerdfonts.fa_plus_circle .. " " },
+            { Text = " " .. wezterm.nerdfonts.fa_circle .. " " },
         }),
         window_maximize_hover = wezterm.format({
             { Foreground = { Color = colors.base0A } },
@@ -131,7 +131,7 @@ if not config.use_fancy_tab_bar and platform ~= "macOS" then
         window_close = wezterm.format({
             { Foreground = { Color = darken(colors.base0B, 0.45) } },
             { Background = { Color = dbg } },
-            { Text = " " .. wezterm.nerdfonts.fa_times_circle .. "  " },
+            { Text = " " .. wezterm.nerdfonts.fa_circle .. "  " },
         }),
         window_close_hover = wezterm.format({
             { Foreground = { Color = colors.base0B } },
@@ -210,7 +210,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     if wezterm.column_width(title) > max_width then
         title = string.format(
             " %s ",
-            wezterm.truncate_right(title, max_width - (wezterm.column_width(icon) + wezterm.column_width(" ")) - 6)
+            wezterm.truncate_left(title, max_width - (wezterm.column_width(icon) + wezterm.column_width(" ")) - 6)
         )
     end
     local len = wezterm.column_width(title)
