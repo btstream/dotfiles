@@ -107,42 +107,41 @@ config.window_frame = {
 -- custom window button for windows and linux
 if not config.use_fancy_tab_bar and platform ~= "macOS" then
     config.use_fancy_tab_bar = false
-    local btn_padding_left = "  "
-    local btn_padding_right = "  "
-    if platform() == "Linux" then
-        btn_padding_left = " "
-        btn_padding_right = " "
-    end
+    local btn_padding_left = " "
+    local btn_padding_right = " "
+    local btn_margin = " "
+
+    -- button
     config.tab_bar_style = {
         window_hide = wezterm.format({
-            { Foreground = { Color = darken(colors.base0F, 0.45) } },
+            { Foreground = { Color = darken(colors.base0F, 0.25) } },
             { Background = { Color = dbg } },
-            { Text = btn_padding_left .. wezterm.nerdfonts.fa_circle .. " " },
+            { Text = btn_padding_left .. wezterm.nerdfonts.fa_circle .. btn_margin },
         }),
         window_hide_hover = wezterm.format({
             { Foreground = { Color = colors.base0F } },
             { Background = { Color = dbg } },
-            { Text = btn_padding_left .. wezterm.nerdfonts.fa_minus_circle .. " " },
+            { Text = btn_padding_left .. wezterm.nerdfonts.fa_minus_circle .. btn_margin },
         }),
         window_maximize = wezterm.format({
-            { Foreground = { Color = darken(colors.base0A, 0.45) } },
+            { Foreground = { Color = darken(colors.base0A, 0.25) } },
             { Background = { Color = dbg } },
-            { Text = " " .. wezterm.nerdfonts.fa_circle .. " " },
+            { Text = btn_margin .. wezterm.nerdfonts.fa_circle .. btn_margin },
         }),
         window_maximize_hover = wezterm.format({
             { Foreground = { Color = colors.base0A } },
             { Background = { Color = dbg } },
-            { Text = " " .. wezterm.nerdfonts.fa_plus_circle .. " " },
+            { Text = btn_margin .. wezterm.nerdfonts.fa_plus_circle .. btn_margin },
         }),
         window_close = wezterm.format({
-            { Foreground = { Color = darken(colors.base0B, 0.45) } },
+            { Foreground = { Color = darken(colors.base0B, 0.25) } },
             { Background = { Color = dbg } },
-            { Text = " " .. wezterm.nerdfonts.fa_circle .. btn_padding_right },
+            { Text = btn_margin .. wezterm.nerdfonts.fa_circle .. btn_padding_right },
         }),
         window_close_hover = wezterm.format({
             { Foreground = { Color = colors.base0B } },
             { Background = { Color = dbg } },
-            { Text = " " .. wezterm.nerdfonts.fa_times_circle .. btn_padding_right },
+            { Text = btn_margin .. wezterm.nerdfonts.fa_times_circle .. btn_padding_right },
         }),
     }
 end
@@ -214,31 +213,22 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
     local extra_space = wezterm.column_width(icon) + wezterm.column_width(" ")
     -- check if need to truncate title
-    if wezterm.column_width(title) >= max_width or (max_width - wezterm.column_width(title) <= extra_space + 1) then
+    if wezterm.column_width(title) >= max_width or (max_width - wezterm.column_width(title) <= extra_space + 2) then
         title = string.format(" %s ", wezterm.truncate_left(title, max_width - extra_space - 4))
     end
     local len = wezterm.column_width(title)
-    -- print(
-    --     tab.active_pane.title,
-    --     "<><><>",
-    --     wezterm.column_width(tab.active_pane.title),
-    --     max_width,
-    --     extra_space,
-    --     "<><><>",
-    --     title,
-    --     "<><><>",
-    --     wezterm.column_width(title)
-    -- )
 
+    -- padding left
     local lpadding_length = math.ceil((max_width - len) / 2)
     if not config.use_fancy_tab_bar then
         lpadding_length = lpadding_length - wezterm.column_width(icon) - wezterm.column_width(" ")
     end
-    lpadding_length = lpadding_length > 0 and lpadding_length or 0
+    lpadding_length = lpadding_length > 0 and lpadding_length or 0 -- in case of overflow
     local lpadding = wezterm.pad_left(" ", lpadding_length)
 
+    -- padding right
     local rpadding_length = max_width - len - lpadding_length
-    rpadding_length = rpadding_length > 0 and rpadding_length or 0
+    rpadding_length = rpadding_length > 0 and rpadding_length or 0 -- in case of overflow
     local rpadding = wezterm.pad_right(" ", rpadding_length)
 
     title = string.format("%s%s%s", lpadding, title, rpadding)
