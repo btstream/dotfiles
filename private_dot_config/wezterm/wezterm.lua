@@ -311,7 +311,7 @@ end)
 ----------------------------------------------------------------------
 config.command_palette_bg_color = darken(colors.base02, 0.1)
 config.command_palette_fg_color = colors.base04
-config.command_palette_font_size = 12
+config.command_palette_font_size = platform() == "macOS" and 12 or 11
 
 ----------------------------------------------------------------------
 --                              Fonts                               --
