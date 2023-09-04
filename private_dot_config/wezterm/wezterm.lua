@@ -3,7 +3,7 @@ local wezterm = require("wezterm")
 local table_merge = require("utils").table_merge
 local darken = require("utils.colors").darken
 local gen_font_config = require("utils.wezterm").gen_font_config
-local get_pane_app = require("utils.wezterm").get_pane_app
+local get_pane_app = require("utils.wezterm.pane").get_current_app
 local platform = require("utils.wezterm").platform
 
 ----------------------------------------------------------------------
@@ -184,6 +184,8 @@ config.tab_max_width = 28
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
 
+    print(tab.active_pane.user_vars)
+
     local has_unseen_output = false
     if not tab.is_active then
         for _, p in pairs(tab.panes) do
@@ -239,8 +241,8 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
     ----------------------------------------------------------------------
     local format = {}
 
-    local domain = require("utils.wezterm").get_pane_domain_info(tab.active_pane)
-    local app = require("utils.wezterm").get_pane_app(tab.active_pane)
+    local domain = require("utils.wezterm.pane").get_domain_info(tab.active_pane)
+    local app = require("utils.wezterm.pane").get_current_app(tab.active_pane)
 
     local function add_domain_color()
         if domain.domain == "wsl" then

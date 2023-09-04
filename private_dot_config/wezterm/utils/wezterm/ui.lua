@@ -1,7 +1,7 @@
 local wezterm = require("wezterm")
 local platform = require("utils.wezterm").platform
-local pane_domain = require("utils.wezterm").get_pane_domain_info
-local pane_app = require("utils.wezterm").get_pane_app
+local pane_domain = require("utils.wezterm.pane").get_domain_info
+local pane_app = require("utils.wezterm.pane").get_current_app
 
 local APP_ICONS = {
     -- eidtors
