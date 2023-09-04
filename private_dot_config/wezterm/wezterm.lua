@@ -184,8 +184,6 @@ config.tab_max_width = 28
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
 
-    print(tab.active_pane.user_vars)
-
     local has_unseen_output = false
     if not tab.is_active then
         for _, p in pairs(tab.panes) do

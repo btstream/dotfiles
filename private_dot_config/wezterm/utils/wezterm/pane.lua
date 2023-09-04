@@ -36,18 +36,31 @@ local function guess_app_from_title(pane)
         return pane:get_title()
     end) and pane:get_title() or pane.title
 
+    -- to eliminate if just a folder
+    title = title:gsub("^%s*(.-)%s*$", "%1")
+    if title then
+        if platform() == "Windows" then
+            if title:find("^%a?:") == 1 or title:find("^~/") == 1 then
+                return
+            end
+        end
+        if title:find("^[~/]") then
+            return
+        end
+    end
+
     -- very personal, for alias as on zsh
     if title == "v" or title == "e" then
         return "vim"
     end
 
-    local sep = platform() == "Windows" and "\\" or "/"
-    sep = M.get_domain_info(pane).domain == "wsl" and "/" or sep
+    -- local sep = platform() == "Windows" and "\\" or "/"
+    -- sep = M.get_domain_info(pane).domain == "wsl" and "/" or sep
 
     -- current title is a path, suitable for oh-my-zsh's termsupport
-    if #title:split(sep) > 1 then
-        return nil
-    end
+    -- if #title:split(sep) > 1 then
+    -- return nil
+    -- end
 
     for _, value in pairs(require("utils.wezterm.ui").get_supported_apps()) do
         if title:lower():find(value) then
@@ -56,11 +69,37 @@ local function guess_app_from_title(pane)
     end
 end
 
-function M.get_current_app(pane)
-    local domain = M.get_domain_info(pane)
+local function get_app_from_user_var(pane)
+    local user_vars = pcall(function()
+        pane:get_user_vars()
+    end) and pane:get_user_vars() or pane.user_vars
 
+    local program = user_vars.WEZTERM_PROG
+    if program then
+        program = program:gsub("^%s*(.-)%s*$", "%1")
+
+        if program == "v" or program == "e" then
+            program = "vim"
+        end
+
+        return program:split(" ")[1]
+    end
+end
+
+function M.get_current_app(pane)
+    ----------------------------------------------------------------------
+    --          get app from user_vars if shell_integration of          --
+    --                        wezterm has set                           --
+    ----------------------------------------------------------------------
+
+    local app = get_app_from_user_var(pane)
+    if app then
+        return app
+    end
+
+    local domain = M.get_domain_info(pane)
     if domain == nil or domain.domain == "local" then
-        local app = pcall(function()
+        app = pcall(function()
             return pane:foreground_process_name()
         end) and pane:get_foreground_process_name() or pane.foreground_process_name
 
