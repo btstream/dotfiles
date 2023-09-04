@@ -307,6 +307,15 @@ wezterm.on("update-status", function(window, pane)
     -- end
 end)
 
+wezterm.on("window-focus-changed", function(win, pane)
+    if platform() == "macOS" then
+        win:set_left_status(wezterm.format({
+            { Foreground = { Color = colors.base0F } },
+            { Text = " " },
+        }))
+    end
+end)
+
 ----------------------------------------------------------------------
 --                         Command Palette                          --
 ----------------------------------------------------------------------
@@ -327,6 +336,7 @@ config.font_size = platform() == "macOS" and 13 or 9
 config.freetype_load_target = "Light"
 config.freetype_render_target = "HorizontalLcd"
 config.bold_brightens_ansi_colors = true
+config.allow_square_glyphs_to_overflow_width = "Never"
 
 ----------------------------------------------------------------------
 --                            Underline                             --
