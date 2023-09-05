@@ -21,8 +21,13 @@ local APP_ICONS = {
     -- ssh and other remote control tools
     ssh = wezterm.nerdfonts.md_remote_desktop,
 
+    -- git
     lazygit = wezterm.nerdfonts.dev_git,
+    git = wezterm.nerdfonts.dev_git,
+
+    -- statistics
     btop = wezterm.nerdfonts.md_monitor_dashboard,
+    top = wezterm.nerdfonts.md_monitor_dashboard,
 }
 
 local PLATFORM_ICONS = {
