@@ -212,10 +212,9 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
     local title = tab.active_pane.title
 
-    local extra_space = wezterm.column_width(icon) + wezterm.column_width(" ")
     -- check if need to truncate title
-    if wezterm.column_width(title) >= max_width or (max_width - wezterm.column_width(title) <= extra_space + 2) then
-        title = string.format(" %s ", wezterm.truncate_left(title, max_width - extra_space - 4))
+    if wezterm.column_width(title) >= 15 then -- oh my zsh truncate pwd title to 15 charactors, use same config
+        title = string.format("..%s", wezterm.truncate_left(title, 13))
     end
     local len = wezterm.column_width(title)
 
