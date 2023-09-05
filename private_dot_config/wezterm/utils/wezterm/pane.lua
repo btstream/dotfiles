@@ -47,6 +47,9 @@ local function guess_app_from_title(pane)
         if title:find("^[~/]") then
             return
         end
+        if title:find("^%.%..*") then
+            return
+        end
     end
 
     -- very personal, for alias as on zsh
