@@ -115,32 +115,32 @@ if platform() ~= "macOS" then
     -- button
     config.tab_bar_style = {
         window_hide = wezterm.format({
-            { Foreground = { Color = darken(colors.base0F, 0.25) } },
+            { Foreground = { Color = darken(colors.base0A, 0.25) } },
             { Background = { Color = dbg } },
             { Text = btn_padding_left .. wezterm.nerdfonts.fa_circle .. btn_margin },
         }),
         window_hide_hover = wezterm.format({
-            { Foreground = { Color = colors.base0F } },
+            { Foreground = { Color = colors.base0A } },
             { Background = { Color = dbg } },
             { Text = btn_padding_left .. wezterm.nerdfonts.fa_minus_circle .. btn_margin },
         }),
         window_maximize = wezterm.format({
-            { Foreground = { Color = darken(colors.base0A, 0.25) } },
+            { Foreground = { Color = darken(colors.base0B, 0.25) } },
             { Background = { Color = dbg } },
             { Text = btn_margin .. wezterm.nerdfonts.fa_circle .. btn_margin },
         }),
         window_maximize_hover = wezterm.format({
-            { Foreground = { Color = colors.base0A } },
+            { Foreground = { Color = colors.base0B } },
             { Background = { Color = dbg } },
             { Text = btn_margin .. wezterm.nerdfonts.fa_plus_circle .. btn_margin },
         }),
         window_close = wezterm.format({
-            { Foreground = { Color = darken(colors.base0B, 0.25) } },
+            { Foreground = { Color = darken(colors.base08, 0.25) } },
             { Background = { Color = dbg } },
             { Text = btn_margin .. wezterm.nerdfonts.fa_circle .. btn_padding_right },
         }),
         window_close_hover = wezterm.format({
-            { Foreground = { Color = colors.base0B } },
+            { Foreground = { Color = colors.base08 } },
             { Background = { Color = dbg } },
             { Text = btn_margin .. wezterm.nerdfonts.fa_times_circle .. btn_padding_right },
         }),
