@@ -406,7 +406,7 @@ config.window_close_confirmation = "NeverPrompt"
 --                             wayland                              --
 ----------------------------------------------------------------------
 -- if os.getenv("XDG_SESSION_TYPE") == "wayland" then
-config.enable_wayland = false
+-- config.enable_wayland = false
 -- end
 
 ----------------------------------------------------------------------
