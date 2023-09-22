@@ -85,7 +85,12 @@ local function get_app_from_user_var(pane)
             program = "vim"
         end
 
-        return program:split(" ")[1]
+        program = program:split(" ")[1]
+        if program then
+            program = program:split("/")
+            return program[#program]
+        end
+        return program
     end
 end
 
