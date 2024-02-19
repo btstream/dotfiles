@@ -6,6 +6,8 @@ local gen_font_config = require("utils.wezterm").gen_font_config
 local get_pane_app = require("utils.wezterm.pane").get_current_app
 local platform = require("utils.wezterm").platform
 
+local config = wezterm.config_builder()
+
 ----------------------------------------------------------------------
 --                     Loading Custom Configs                      --
 ----------------------------------------------------------------------
@@ -34,7 +36,6 @@ for _, f in pairs(default_fonts) do
     table.insert(fonts, f)
 end
 
-local config = {}
 ----------------------------------------------------------------------
 --                              Theme                               --
 ----------------------------------------------------------------------
