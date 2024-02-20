@@ -12,7 +12,6 @@ local config = wezterm.config_builder()
 --                     Loading Custom Configs                      --
 ----------------------------------------------------------------------
 
--- colors
 local has_custom, custom_conf = pcall(require, "custom")
 
 local color_scheme = "onedark"
@@ -23,8 +22,11 @@ if has_custom then
     custom_conf.color_scheme = nil -- to avoid use wezterm's inner color sheme
     custom_conf.fonts = nil -- wezterm does not have a fonts config key, delete it to avoid warnnings
 end
+
+-- load colors
 local colors = require("colors." .. color_scheme)
 
+-- generate font list
 local default_fonts = {
     "JetBrainsMono Nerd Font Propo",
     "NotoSansM Nerd Font Propo",
