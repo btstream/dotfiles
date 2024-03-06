@@ -23,7 +23,7 @@ autoload -Uz _zi
 zi load z-shell/H-S-MW
 zi light z-shell/F-Sy-H
 
-zi ice atload'zicompinit'
+# zi ice atload'zicompinit'
 zi snippet OMZL::completion.zsh
 zi snippet OMZL::history.zsh
 zi snippet OMZL::functions.zsh
@@ -46,4 +46,4 @@ zi snippet "https://raw.githubusercontent.com/wez/wezterm/main/assets/shell-inte
 # themes
 zi ice depth"1" atload"[[ ! -f ~/.p10k.zsh ]] && p10k configure || source ~/.p10k.zsh"
 zi light romkatv/powerlevel10k
-
+zicompinit
