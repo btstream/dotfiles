@@ -1,0 +1,40 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = "$os$all"
+
+command_timeout = 3000
+scan_timeout = 50
+add_newline = true
+
+[os]
+disabled = false
+style = "bold blue"
+
+[os.symbols]
+Windows = "󰖳 "
+Arch = " "
+
+[shell]
+disabled = false
+powershell_indicator = ""
+xonsh_indicator = "󰁥"
+zsh_indicator = '❭'
+style = "bold green"
+
+[character]
+success_symbol = "[](bold green)"
+error_symbol = "[ ](bold red)"
+
+[directory]
+use_os_path_sep = false
+read_only = " 󰉐 "
+style = "blue bold"
+
+[package]
+symbol = "󰏖 "
+
+[java]
+symbol = "󰬷 "
+
+[lua]
+symbol = "󰢱 "
