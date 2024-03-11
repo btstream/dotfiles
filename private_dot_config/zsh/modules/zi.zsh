@@ -43,7 +43,11 @@ zi light zsh-users/zsh-completions
 zi ice if"[[ \"${TERM_PROGRAM}\" == \"WezTerm\" ]]"
 zi snippet "https://raw.githubusercontent.com/wez/wezterm/main/assets/shell-integration/wezterm.sh"
 
-# themes
-zi ice depth"1" atload"[[ ! -f ~/.p10k.zsh ]] && p10k configure || source ~/.p10k.zsh"
-zi light romkatv/powerlevel10k
+if [[ $(whence -p starship) ]]; then
+    eval "$(starship init zsh)"
+else
+    # themes
+    zi ice depth"1" atload"[[ ! -f ~/.p10k.zsh ]] && p10k configure || source ~/.p10k.zsh"
+    zi light romkatv/powerlevel10k
+fi
 zicompinit

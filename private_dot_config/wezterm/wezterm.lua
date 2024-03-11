@@ -344,7 +344,7 @@ config.allow_square_glyphs_to_overflow_width = "Never"
 --                            Underline                             --
 ----------------------------------------------------------------------
 config.underline_thickness = "200%"
-config.underline_position = "-.25cell"
+config.underline_position = "-.21cell"
 
 ----------------------------------------------------------------------
 --                             For Keys                             --
