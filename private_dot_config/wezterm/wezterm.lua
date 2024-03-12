@@ -14,7 +14,7 @@ local config = wezterm.config_builder()
 
 local has_custom, custom_conf = pcall(require, "custom")
 
-local color_scheme = "onedark"
+local color_scheme = "material-darker"
 local fonts = {}
 if has_custom then
     color_scheme = custom_conf.color_scheme and custom_conf.color_scheme or color_scheme
