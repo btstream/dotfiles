@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[╭─](bold bright-black) $os\
+[╭─](bold gray) $os\
 $username\
 $hostname\
 $directory\
@@ -69,8 +69,8 @@ $env_var\
 $crystal\
 $custom\
 $sudo\
-$fill$time 
-[╰─](bold bright-black) $shell$character"""
+$fill$cmd_duration$time 
+[╰─](bold gray) $shell$character"""
 # A minimal left prompt
 # format = """$character"""
 command_timeout = 3000
@@ -78,8 +78,8 @@ scan_timeout = 50
 add_newline = true
 
 [fill]
-symbol = '─'
-style = "bright-black"
+symbol = '·'
+style = "bold black"
 
 [os]
 disabled = false
@@ -94,7 +94,8 @@ Macos = " "
 disabled = false
 powershell_indicator = ""
 xonsh_indicator = "󰁥"
-zsh_indicator = '❭'
+zsh_indicator = '⟩'
+bash_indicator = '⟩'
 style = "bold green"
 
 [character]
@@ -102,8 +103,10 @@ success_symbol = "[](bold green)"
 error_symbol = "[⛌ ](bold red)"
 
 [directory]
+use_logical_path = true
 use_os_path_sep = false
-format = "[ $path]($style)[$read_only]($read_only_style) "
+fish_style_pwd_dir_length = 24
+format = "[$path]($style)[$read_only]($read_only_style) "
 read_only = " 󰉐 "
 style = "blue cyan"
 
@@ -115,6 +118,9 @@ symbol = "󰬷 "
 
 [lua]
 symbol = "󰢱 "
+
+[python]
+symbol = "󰌠 "
 
 [time]
 disabled = false
