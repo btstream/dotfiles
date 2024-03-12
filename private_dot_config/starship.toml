@@ -1,7 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-[╭─](bold gray) $os\
+[╭─](bold 236) $os\
 $username\
 $hostname\
 $directory\
@@ -70,7 +70,7 @@ $crystal\
 $custom\
 $sudo\
 $fill$cmd_duration$time 
-[╰─](bold gray) $shell$character"""
+[╰─](bold 236) $shell$character"""
 # A minimal left prompt
 # format = """$character"""
 command_timeout = 3000
@@ -79,7 +79,7 @@ add_newline = true
 
 [fill]
 symbol = '─'
-style = "bold gray"
+style = "bold 236"
 
 [os]
 disabled = false
