@@ -8,8 +8,12 @@
 
 {{- if eq .chezmoi.os "darwin" -}}
 .config/fontconfig/
+.config/fontconfig/**
 .config/plasma-workspace/
+.config/plasma-workspace/**
 .config/lazygit/
+.config/lazygit/**
 {{- else if eq .chezmoi.os "linux" -}}
-"~/Library/Application Support/lazygit/"
+~/Library/Application Support/lazygit/
+~/Library/Application Support/lazygit/**
 {{- end -}}
