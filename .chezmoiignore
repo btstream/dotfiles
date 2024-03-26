@@ -9,7 +9,9 @@
 {{- if eq .chezmoi.os "darwin" }}
 .config/fontconfig/
 .config/plasma-workspace/
+.config/lazygit/
 {{end}}
 
 {{- if eq .chezmoi.os "linux" }}
+~/Library/Application Support/lazygit/
 {{end}}
