@@ -14,6 +14,6 @@
 .config/lazygit/
 .config/lazygit/**
 {{- else if eq .chezmoi.os "linux" -}}
-~/Library/Application Support/lazygit/
-~/Library/Application Support/lazygit/**
+$HOME/Library/Application Support/lazygit/
+$HOME/Library/Application Support/lazygit/**
 {{- end -}}
