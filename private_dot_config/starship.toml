@@ -102,6 +102,9 @@ style = "bold green"
 success_symbol = "[](bold green)"
 error_symbol = "[⛌ ](bold red)"
 
+[hostname]
+ssh_symbol = "󰢹 "
+
 [directory]
 use_logical_path = true
 use_os_path_sep = false
