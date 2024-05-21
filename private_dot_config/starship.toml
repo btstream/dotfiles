@@ -87,31 +87,44 @@ style = "bold blue"
 
 [os.symbols]
 Windows = "󰖳 "
-Arch = " "
-Macos = " "
+Arch    = " "
+Macos   = " "
 
 [shell]
-disabled = false
+disabled             = false
 powershell_indicator = ""
-xonsh_indicator = "󰁥"
-zsh_indicator = '⟩'
-bash_indicator = '⟩'
-style = "bold green"
+xonsh_indicator      = "󰁥"
+zsh_indicator        = '⟩'
+bash_indicator       = '⟩'
+style                = "bold green"
 
 [character]
 success_symbol = "[](bold green)"
-error_symbol = "[⛌ ](bold red)"
+error_symbol   = "[x ](bold red)"
 
 [hostname]
 ssh_symbol = "󰢹 "
 
 [directory]
-use_logical_path = true
-use_os_path_sep = false
+use_logical_path          = true
+use_os_path_sep           = false
 fish_style_pwd_dir_length = 24
-format = "[$path]($style)[$read_only]($read_only_style) "
-read_only = " 󰉐 "
-style = "blue cyan"
+format                    = "[$path]($style)[$read_only]($read_only_style) "
+read_only                 = " 󰉐 "
+style                     = "blue cyan"
+
+[git_commit]
+tag_symbol = " 󰓹 "
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+conflicted = ""
+deleted    = ""
+modified   = ""
+renamed    = ""
+untracked  = "󰒉"
+staged     = "󰄬"
+
 
 [package]
 symbol = "󰏖 "
@@ -126,7 +139,7 @@ symbol = "󰢱 "
 symbol = "󰌠 "
 
 [time]
-disabled = false
-format = "[  $time ]($style)"
+disabled    = false
+format      = "[  $time ]($style)"
 time_format = "%Y-%m-%d %T"
-# style = "bg:yellow fg:black"
+# style     = "bg:yellow fg:black"

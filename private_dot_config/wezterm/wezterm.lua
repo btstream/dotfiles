@@ -343,7 +343,7 @@ config.allow_square_glyphs_to_overflow_width = "Never"
 ----------------------------------------------------------------------
 --                            Underline                             --
 ----------------------------------------------------------------------
-config.underline_thickness = "200%"
+config.underline_thickness = "1pt"
 config.underline_position = "-.21cell"
 
 ----------------------------------------------------------------------
