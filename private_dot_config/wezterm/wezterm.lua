@@ -408,9 +408,14 @@ config.window_close_confirmation = "NeverPrompt"
 ----------------------------------------------------------------------
 --                             wayland                              --
 ----------------------------------------------------------------------
--- if os.getenv("XDG_SESSION_TYPE") == "wayland" then
--- config.enable_wayland = false
--- end
+if os.getenv("XDG_SESSION_TYPE") == "wayland" then
+    local desktop_session = os.getenv("DESKTOP_SESSION")
+    if desktop_session == "plasma" or desktop_session == "gnome" then
+        -- wayland with "INTEGRATED_BUTTON" would panic right now, so disable it
+        config.window_decorations = "TITLE | RESIZE"
+        config.hide_tab_bar_if_only_one_tab = true
+    end
+end
 
 ----------------------------------------------------------------------
 --                            front end                             --
