@@ -34,6 +34,12 @@ zi snippet OMZL::termsupport.zsh
 zi snippet OMZP::gitignore
 zi snippet OMZP::sudo
 
+zi ice if"[[ \"$(whence -p pip)\" ]]"
+zi snippet OMZP::pip
+
+zi ice if"[[ \"$(whence -p zoxide)\" ]]"
+ZOXIDE_CMD_OVERRIDE=cd zi snippet OMZP::zoxide
+
 zi light zsh-users/zsh-syntax-highlighting
 zi light zsh-users/zsh-autosuggestions 
 
