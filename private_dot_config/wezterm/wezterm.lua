@@ -83,7 +83,9 @@ config.initial_rows = 30
 ----------------------------------------------------------------------
 --                              Tabbar                              --
 ----------------------------------------------------------------------
-config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+if platform() ~= "Linux" then
+    config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+end
 config.window_frame = {
     font = wezterm.font_with_fallback({
         { family = "ShureTechMono Nerd Font" },
@@ -108,47 +110,48 @@ config.window_frame = {
 
 -- disable fancy tab_bar and setting button for windows and linux
 -- custom window button for windows and linux
-config.use_fancy_tab_bar = custom_conf.use_fancy_tab_bar and custom_conf.use_fancy_tab_bar or true
-if platform() ~= "macOS" then
-    config.use_fancy_tab_bar = false
-    local btn_padding_left = " "
-    local btn_padding_right = " "
-    local btn_margin = " "
-
-    -- button
-    config.tab_bar_style = {
-        window_hide = wezterm.format({
-            { Foreground = { Color = darken(colors.base0A, 0.25) } },
-            { Background = { Color = dbg } },
-            { Text = btn_padding_left .. wezterm.nerdfonts.fa_circle .. btn_margin },
-        }),
-        window_hide_hover = wezterm.format({
-            { Foreground = { Color = colors.base0A } },
-            { Background = { Color = dbg } },
-            { Text = btn_padding_left .. wezterm.nerdfonts.fa_minus_circle .. btn_margin },
-        }),
-        window_maximize = wezterm.format({
-            { Foreground = { Color = darken(colors.base0B, 0.25) } },
-            { Background = { Color = dbg } },
-            { Text = btn_margin .. wezterm.nerdfonts.fa_circle .. btn_margin },
-        }),
-        window_maximize_hover = wezterm.format({
-            { Foreground = { Color = colors.base0B } },
-            { Background = { Color = dbg } },
-            { Text = btn_margin .. wezterm.nerdfonts.fa_plus_circle .. btn_margin },
-        }),
-        window_close = wezterm.format({
-            { Foreground = { Color = darken(colors.base08, 0.25) } },
-            { Background = { Color = dbg } },
-            { Text = btn_margin .. wezterm.nerdfonts.fa_circle .. btn_padding_right },
-        }),
-        window_close_hover = wezterm.format({
-            { Foreground = { Color = colors.base08 } },
-            { Background = { Color = dbg } },
-            { Text = btn_margin .. wezterm.nerdfonts.fa_times_circle .. btn_padding_right },
-        }),
-    }
-end
+config.use_fancy_tab_bar = true
+-- config.use_fancy_tab_bar = custom_conf.use_fancy_tab_bar and custom_conf.use_fancy_tab_bar or true
+-- if platform() == "Linux" then
+--     config.use_fancy_tab_bar = false
+--     local btn_padding_left = " "
+--     local btn_padding_right = " "
+--     local btn_margin = " "
+--
+--     -- button
+--     config.tab_bar_style = {
+--         window_hide = wezterm.format({
+--             { Foreground = { Color = darken(colors.base0A, 0.25) } },
+--             { Background = { Color = dbg } },
+--             { Text = btn_padding_left .. wezterm.nerdfonts.fa_circle .. btn_margin },
+--         }),
+--         window_hide_hover = wezterm.format({
+--             { Foreground = { Color = colors.base0A } },
+--             { Background = { Color = dbg } },
+--             { Text = btn_padding_left .. wezterm.nerdfonts.fa_minus_circle .. btn_margin },
+--         }),
+--         window_maximize = wezterm.format({
+--             { Foreground = { Color = darken(colors.base0B, 0.25) } },
+--             { Background = { Color = dbg } },
+--             { Text = btn_margin .. wezterm.nerdfonts.fa_circle .. btn_margin },
+--         }),
+--         window_maximize_hover = wezterm.format({
+--             { Foreground = { Color = colors.base0B } },
+--             { Background = { Color = dbg } },
+--             { Text = btn_margin .. wezterm.nerdfonts.fa_plus_circle .. btn_margin },
+--         }),
+--         window_close = wezterm.format({
+--             { Foreground = { Color = darken(colors.base08, 0.25) } },
+--             { Background = { Color = dbg } },
+--             { Text = btn_margin .. wezterm.nerdfonts.fa_circle .. btn_padding_right },
+--         }),
+--         window_close_hover = wezterm.format({
+--             { Foreground = { Color = colors.base08 } },
+--             { Background = { Color = dbg } },
+--             { Text = btn_margin .. wezterm.nerdfonts.fa_times_circle .. btn_padding_right },
+--         }),
+--     }
+-- end
 
 config.colors.tab_bar = {
 
@@ -183,7 +186,7 @@ config.colors.tab_bar = {
     },
 }
 
-config.tab_max_width = 28
+config.tab_max_width = 32
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
     local icon = require("utils.wezterm.ui").gen_tab_icon(tab.active_pane)
 
@@ -288,26 +291,6 @@ config.window_padding = {
     top = ".5cell",
     bottom = "0cell",
 }
-
----- update padding for neovim, disable now for a better consistent tab change effect
-wezterm.on("update-status", function(window, pane)
-    wezterm.GLOBAL.current_dimension = window:get_dimensions()
-    -- if platform() ~= "Windows" then
-    --     local config_overrides = window:get_config_overrides() or {}
-    --     local app = get_pane_app(pane)
-    --     if app == "nvim" or app == "vim" then
-    --         config_overrides.window_padding = {
-    --             left = "1cell",
-    --             right = ".5cell",
-    --             top = 0,
-    --             bottom = 0,
-    --         }
-    --     else
-    --         config_overrides.window_padding = config.window_padding
-    --     end
-    --     window:set_config_overrides(config_overrides)
-    -- end
-end)
 
 wezterm.on("window-focus-changed", function(win, pane)
     if platform() == "macOS" then
