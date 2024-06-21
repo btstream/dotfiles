@@ -110,7 +110,7 @@ config.window_frame = {
 
 -- disable fancy tab_bar and setting button for windows and linux
 -- custom window button for windows and linux
-config.use_fancy_tab_bar = true
+config.use_fancy_tab_bar = platform() ~= "Linux"
 -- config.use_fancy_tab_bar = custom_conf.use_fancy_tab_bar and custom_conf.use_fancy_tab_bar or true
 -- if platform() == "Linux" then
 --     config.use_fancy_tab_bar = false
