@@ -43,3 +43,11 @@ if [[ "$(whence -p nvim)" ]]; then
     alias v="nvim"
     alias e="nvim"
 fi
+
+#--------------------------------------------------------------------#
+#                           set yay alias                            #
+#--------------------------------------------------------------------#
+if [[ "$(whence -p paru)" && "$(whence -p yay)" == "" ]]; then
+    alias yay="paru"
+fi
+
