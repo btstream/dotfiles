@@ -33,6 +33,7 @@ zi snippet OMZL::termsupport.zsh
 
 zi snippet OMZP::gitignore
 zi snippet OMZP::sudo
+zi snippet OMZP::command-not-found
 
 zi ice if"[[ \"$(whence -p pip)\" ]]"
 zi snippet OMZP::pip
