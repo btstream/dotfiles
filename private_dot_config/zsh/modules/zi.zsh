@@ -1,21 +1,15 @@
 ##############################################
 #             basic zi config                #
 ##############################################
-zi_home="${HOME}/.local/share/zi"
-declare -A ZI
-ZI[HOME_DIR]="${HOME}/.local/share/zi-home"
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+[ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "${ZINIT_HOME}/zinit.zsh"
 
-# install zi if does not exist
-if [[ ! -e $zi_home ]]; then
-    mkdir -pv $zi_home
-    git clone https://github.com/z-shell/zi.git "${zi_home}/bin"
-fi
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
 
-# load zi and set zi
-source "${zi_home}/bin/zi.zsh"
-autoload -Uz _zi
-(( ${+_comps} )) && _comps[zi]=_zi
-
+alias zi=zinit
 
 ##############################################
 #             set plugins                    #
