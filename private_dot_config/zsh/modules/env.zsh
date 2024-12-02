@@ -9,6 +9,6 @@ if [[ $(whence -p fzf) ]]; then
         --color=prompt:#82aaff,spinner:#c792ea,pointer:#8aaaff,header:#89ddff
         --color=border:#82aaff,label:#b2ccd6,query:#eeffff
         --border="rounded" --border-label="" --preview-window="border-rounded" --margin="1"
-        --prompt="  " --marker="" --pointer="█" --separator="─"
-        --scrollbar="┃" --layout="reverse"'
+        --prompt="  " --marker="" --pointer="▍" --separator="─"
+        --scrollbar="█" --layout="reverse"'
 fi
