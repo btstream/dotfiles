@@ -14,13 +14,15 @@ alias zi=zinit
 #                completions config and load compinit                #
 #--------------------------------------------------------------------#
 # we need to load compinit early, which would solve some of other plugins 
-zi ice blockf atpull'zinit creinstall -q .' atload'autoload -Uz compinit && compinit'
+zi ice blockf atpull'zinit creinstall -q .'
 zi light zsh-users/zsh-completions
+zi snippet OMZL::completion.zsh
+
+autoload -Uz compinit && compinit
 
 #--------------------------------------------------------------------#
 #                         Oh my zsh plugins                          #
 #--------------------------------------------------------------------#
-zi snippet OMZL::completion.zsh
 zi snippet OMZL::history.zsh
 zi snippet OMZL::functions.zsh
 zi snippet OMZL::misc.zsh
